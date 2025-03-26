@@ -12,11 +12,8 @@ public class OpenAIService
     public OpenAIService()
     {
         _httpClient = new HttpClient();
-<<<<<<< HEAD
+
         //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
-=======
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
->>>>>>> 11dc749603676c2bf013f356e812585c2e4856a5
     }
 
     public async Task<string> GenerateImageAsync(string prompt)

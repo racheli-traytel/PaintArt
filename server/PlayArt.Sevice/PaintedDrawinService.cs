@@ -53,10 +53,8 @@ namespace PlayArt.Service
         {
             if (id < 0)
                 return null;
-
             var result = await _repository.UpdateAsync(_mapper.Map<PaintedDrawing>(paintedDrawing), id);
             await _repositoryManager.SaveAsync();
-
             return _mapper.Map<PaintedDrawingDTO>(result);
         }
 

@@ -165,9 +165,15 @@ builder.Services.AddAutoMapper(typeof(ProfileMapping), typeof(ProfileMappingPost
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 
-builder.Services.AddDbContext<DataContext>(option =>
+//builder.Services.AddDbContext<DataContext>(option =>
+//{
+//    option.UseSqlServer("Data Source = DESKTOP-SSNMLFD; Initial Catalog = PlayArt; Integrated Security = true; Trusted_Connection = SSPI; MultipleActiveResultSets = true; TrustServerCertificate = true;");
+//});
+
+var connectionString = "Server=beqdqzgusumabq3kbes4-mysql.services.clever-cloud.com;Port=3306;Database=beqdqzgusumabq3kbes4;User=uo44ivmkbvid09wi;Password=uW496zhf7ImCGeNGPSjj;";
+builder.Services.AddDbContext<DataContext>(options =>
 {
-    option.UseSqlServer("Data Source = DESKTOP-SSNMLFD; Initial Catalog = PlayArt; Integrated Security = true; Trusted_Connection = SSPI; MultipleActiveResultSets = true; TrustServerCertificate = true;");
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
 var app = builder.Build();
