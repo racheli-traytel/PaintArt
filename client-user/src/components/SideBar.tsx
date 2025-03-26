@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Drawer, List, ListItem, ListItemText, IconButton, Box, ListItemIcon } from '@mui/material';
+import  { useState } from 'react';
+import { Drawer, List, ListItem, ListItemText, IconButton, Box } from '@mui/material';
 import { AccountCircle, Palette, FileUpload, RateReview, ExitToApp } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from './redux/store';
+import { AppDispatch } from './redux/Store';
 import { logout } from './redux/AuthSlice';
 
 const Sidebar = () => {
@@ -65,27 +65,27 @@ const Sidebar = () => {
       >
         <List>
 
-          <ListItem button sx={{  '&:hover': { backgroundColor: 'darkred' } }}>
+          <ListItem component="div" sx={{  '&:hover': { backgroundColor: 'darkred' } }}>
             <AccountCircle />
             <ListItemText primary="פרופיל אישי" />
           </ListItem>
-          <ListItem button component={Link} to="/personal-area/painted-drawings" sx={{ '&:hover': { backgroundColor: 'darkred' } }}>
+          <ListItem  component={Link} to="/personal-area/painted-drawings" sx={{ '&:hover': { backgroundColor: 'darkred' } }}>
             <Palette />
             <ListItemText primary="הציורים שלי" />
           </ListItem>
-          <ListItem button sx={{  '&:hover': { backgroundColor: 'darkred' } }}>
+          <ListItem component="div" sx={{  '&:hover': { backgroundColor: 'darkred' } }}>
             <FileUpload />
             <ListItemText primary="לשיתוף ציור " />
           </ListItem>
-          <ListItem component={Link} to="/personal-area/upload" button sx={{  '&:hover': { backgroundColor: 'darkred' } }}>
+          <ListItem component={Link} to="/personal-area/upload"  sx={{  '&:hover': { backgroundColor: 'darkred' } }}>
             <FileUpload />
             <ListItemText primary="שיתוף ציור" />
           </ListItem>
-          <ListItem button sx={{ '&:hover': { backgroundColor: 'darkred' } }}>
+          <ListItem  sx={{ '&:hover': { backgroundColor: 'darkred' } }}>
             <RateReview />
             <ListItemText primary="דירוגים והמלצות" />
           </ListItem>
-          <ListItem button sx={{'&:hover': { backgroundColor: 'darkred' }}} onClick={handleLogout}>
+          <ListItem  sx={{'&:hover': { backgroundColor: 'darkred' }}} onClick={handleLogout}>
             <ExitToApp />
             <ListItemText primary="התנתקות" />
           </ListItem>

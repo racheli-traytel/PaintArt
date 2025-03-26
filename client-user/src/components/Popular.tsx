@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootStore } from './redux/store';
+import { AppDispatch, RootStore } from './redux/Store';
 import { 
   Box, CircularProgress, 
-  Typography,  Container, Grid,  Card, 
- CardMedia, CardContent, Paper, Divider 
+  Typography,  Container, Grid,  
+ Paper 
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import StarIcon from '@mui/icons-material/Star';
 import { fetchTopRatedDrawings } from './redux/DrawingSlice';
 import DisplayDrawing from './DisplayDrawing';
@@ -99,7 +98,6 @@ const TopRatedDrawings = () => {
             background: 'linear-gradient(45deg, #FF6B6B, #4ECDC4)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
-            color: 'transparent',
           }}
         >
           גלריית היצירות בעלות הדירוג הגבוה ביותר

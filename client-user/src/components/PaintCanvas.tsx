@@ -1,10 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react';
+import  { useRef, useState, useEffect } from 'react';
 import { Button, Slider, Grid, Typography, Box } from '@mui/material';
 import { Print, Palette } from '@mui/icons-material';
 import Drawing from '../types/drawing';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootStore } from './redux/store';
+import { AppDispatch, RootStore } from './redux/Store';
 import axios from 'axios';
 import { addPaintedDrawing } from './redux/PaintedDrawingsSlice';
 import PaintedDrawing from '../types/PaintedDrawing';
@@ -25,7 +25,7 @@ const PaintCanvas = ({ isPainted }: { isPainted: boolean }) => {
   const [color, setColor] = useState<string>('#000000');
   const [brushSize, setBrushSize] = useState<number>(5);
   const [isDrawing, setIsDrawing] = useState<boolean>(false);
-  const [isEraseMode, setIsEraseMode] = useState<boolean>(false);
+  const [isEraseMode, _setIsEraseMode] = useState<boolean>(false);
   const imageUrl = drawing?.imageUrl
   console.log("imageUrl", paintedDrawings);
 
@@ -234,9 +234,9 @@ console.log("blob",blob);
     }
   };
 
-  const toggleEraseMode = () => {
-    setIsEraseMode(!isEraseMode);
-  };
+  // const toggleEraseMode = () => {
+  //   setIsEraseMode(!isEraseMode);
+  // };
 
   const printCanvas = () => {
     const canvas = canvasRef.current;
@@ -322,7 +322,7 @@ console.log("blob",blob);
           value={brushSize}
           min={1}
           max={50}
-          onChange={(e, newValue) => setBrushSize(newValue as number)}
+          onChange={(_e, newValue) => setBrushSize(newValue as number)}
           style={{ width: '200px' }}
         />
         <span>Brush size: {brushSize}</span>

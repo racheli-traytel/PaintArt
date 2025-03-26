@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategories } from './redux/CategorySlice';
-import { AppDispatch, RootStore } from './redux/store';
-import { Button, Stack, Typography, Box, Chip } from '@mui/material';
+import { AppDispatch, RootStore } from './redux/Store';
+import {  Stack, Typography, Box, Chip } from '@mui/material';
 
 interface CategoryProps {
   id: number;
@@ -11,7 +11,6 @@ interface CategoryProps {
 
 const CategoriesButtons: React.FC<{ setSelectedCategory: React.Dispatch<React.SetStateAction<number | null>> }> = ({ setSelectedCategory }) => {
   const dispatch = useDispatch<AppDispatch>();
-      const { user } = useSelector((state: RootStore) => state.auth);
 
   const { items, status, error } = useSelector((state: RootStore) => state.categories);
   const [activeCategory, setActiveCategory] = React.useState<number | null>(null);

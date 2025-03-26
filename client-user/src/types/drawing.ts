@@ -1,4 +1,3 @@
-import Category from "./category"
 type Drawing={
     id:number,
     name:string

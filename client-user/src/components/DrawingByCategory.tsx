@@ -1,28 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDrawingsByCategory, searchDrawings } from './redux/DrawingSlice';
-import { AppDispatch, RootStore } from './redux/store';
-import { Grid, Card, CardContent, Typography, CardMedia, CircularProgress, Box, IconButton, Alert } from '@mui/material';
-import RatingStars from './RatingStars';
-import BrushIcon from '@mui/icons-material/Brush';
-import DownloadIcon from '@mui/icons-material/Download';
-import StarIcon from '@mui/icons-material/Star'; // אייקון כוכב
-import { useNavigate } from 'react-router-dom';
-import ErrorModal from './ErrorModal';
-import RatingModal from './RatingModal'; // ייבוא של הקומפוננטה החדשה
-import Drawing from '../types/drawing';
+import { AppDispatch, RootStore } from './redux/Store';
+import { Grid, Typography,  CircularProgress, Box,} from '@mui/material';
 import DisplayDrawing from './DisplayDrawing';
 
-interface DrawingProps {
-  id: number;
-  title: string;
-  description: string;
-  imageUrl: string;
-  avgRating: number;
-  categoryId: number;
-  categoryName?: string;
-  totalRatings?: number;
-}
 
 interface Props {
   selectedCategory: number | null;

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { searchDrawings } from './redux/DrawingSlice';
-import { AppDispatch } from './redux/store';
+import { AppDispatch } from './redux/Store';
 import { Box, InputBase, Paper, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 const SearchDrawings: React.FC<{ setSelectedCategory: React.Dispatch<React.SetStateAction<number | null>> }> = ({ setSelectedCategory }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [isTyping, setIsTyping] = useState<boolean>(false);
+  const [_isTyping, setIsTyping] = useState<boolean>(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {

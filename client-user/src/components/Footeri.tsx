@@ -46,7 +46,7 @@ const CrayonsContainer = styled(Box)(({ theme }) => ({
     margin: theme.spacing(2, 0, 4),
   }));
   
-  const CrayonsImage = styled('img')(({ theme }) => ({
+  const CrayonsImage = styled('img')(({  }) => ({
     width: '100%', // פריסת התמונה על כל הרוחב
     maxHeight: '200px', // הגדלת הגובה
     objectFit: 'cover', // כדי שהתמונה תכסה את השטח בצורה טובה
@@ -63,7 +63,7 @@ const PlayArtLogo = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
-const SocialIcon = styled(Box)(({ theme }) => ({
+const SocialIcon = styled(Box)(({  }) => ({
   width: 40,
   height: 40,
   borderRadius: '50%',
@@ -78,28 +78,28 @@ const SocialIcon = styled(Box)(({ theme }) => ({
 }));
 
 // Facebook Icon Component
-const FacebookIcon = (props) => (
+const FacebookIcon = (props:any) => (
   <SvgIcon {...props} viewBox="0 0 24 24">
     <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z" />
   </SvgIcon>
 );
 
 // Instagram Icon Component
-const InstagramIcon = (props) => (
+const InstagramIcon = (props:any) => (
   <SvgIcon {...props} viewBox="0 0 24 24">
     <path d="M12 2a10 10 0 0 0-3.16.5 5.24 5.24 0 0 0-3 3A10 10 0 0 0 5.5 8.84v6.32a10 10 0 0 0 .5 3.16 5.24 5.24 0 0 0 3 3 10 10 0 0 0 3.16.5h6.32a10 10 0 0 0 3.16-.5 5.24 5.24 0 0 0 3-3 10 10 0 0 0 .5-3.16V8.84a10 10 0 0 0-.5-3.16 5.24 5.24 0 0 0-3-3A10 10 0 0 0 18.16 2H12zm0 2h6.16a7.9 7.9 0 0 1 2.52.4 3.25 3.25 0 0 1 1.92 1.92 7.9 7.9 0 0 1 .4 2.52v6.32a7.9 7.9 0 0 1-.4 2.52 3.25 3.25 0 0 1-1.92 1.92 7.9 7.9 0 0 1-2.52.4H8.84a7.9 7.9 0 0 1-2.52-.4 3.25 3.25 0 0 1-1.92-1.92 7.9 7.9 0 0 1-.4-2.52V8.84a7.9 7.9 0 0 1 .4-2.52 3.25 3.25 0 0 1 1.92-1.92A7.9 7.9 0 0 1 8.84 4H12zm0 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm5.5-3a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
   </SvgIcon>
 );
 
 // YouTube Icon Component
-const YouTubeIcon = (props) => (
+const YouTubeIcon = (props:any) => (
   <SvgIcon {...props} viewBox="0 0 24 24">
     <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
   </SvgIcon>
 );
 
 // TikTok Icon Component
-const TikTokIcon = (props) => (
+const TikTokIcon = (props:any) => (
   <SvgIcon {...props} viewBox="0 0 24 24">
     <path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6s1.12-2.6 2.6-2.6h.26v-3.1h-.26a5.76 5.76 0 0 0 0 11.52 5.715 5.715 0 0 0 5.76-5.8V7.71a7.615 7.615 0 0 0 4.4 1.2V5.82a4.59 4.59 0 0 1-3.42-2.09z" />
   </SvgIcon>

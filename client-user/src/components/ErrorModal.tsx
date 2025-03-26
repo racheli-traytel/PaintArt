@@ -8,7 +8,6 @@ import {
   styled, 
   keyframes 
 } from '@mui/material';
-import { alpha } from '@mui/material/styles';
 
 // Define animation keyframes
 const modalAppear = keyframes`
@@ -48,7 +47,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   }
 }));
 
-const ErrorIcon = styled(Box)(({ theme }) => ({
+const ErrorIcon = styled(Box)(({  }) => ({
   position: 'relative',
   background: 'linear-gradient(145deg, #fee6e6, #fff2f2)',
   color: '#e74c3c',
@@ -67,7 +66,7 @@ const ErrorIcon = styled(Box)(({ theme }) => ({
   },
 }));
 
-const CloseButton = styled(Button)(({ theme }) => ({
+const CloseButton = styled(Button)(({  }) => ({
   position: 'absolute', 
   top: 18, 
   left: 18,
@@ -82,7 +81,7 @@ const CloseButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const LoginButton = styled(Button)(({ theme }) => ({
+const LoginButton = styled(Button)(({  }) => ({
   background: 'linear-gradient(135deg, #3a7bd5, #00d2ff)',
   color: 'white',
   padding: '12px 24px',
@@ -99,7 +98,7 @@ const LoginButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const RegisterButton = styled(Button)(({ theme }) => ({
+const RegisterButton = styled(Button)(({  }) => ({
   background: 'white',
   color: '#3a7bd5',
   border: '1px solid #e2e8f0',
@@ -201,20 +200,20 @@ const ErrorModal: React.FC<ErrorModalProps> = ({
 
 // Add Heebo font to your application - place this in your index.html or App component
 // React helpers to add the font
-const HeeboFont = () => {
-  React.useEffect(() => {
-    // Add Heebo font
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap';
-    document.head.appendChild(link);
+// const HeeboFont = () => {
+//   React.useEffect(() => {
+//     // Add Heebo font
+//     const link = document.createElement('link');
+//     link.rel = 'stylesheet';
+//     link.href = 'https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap';
+//     document.head.appendChild(link);
     
-    return () => {
-      document.head.removeChild(link);
-    };
-  }, []);
+//     return () => {
+//       document.head.removeChild(link);
+//     };
+//   }, []);
   
-  return null;
-};
+//   return null;
+// };
 
 export default ErrorModal

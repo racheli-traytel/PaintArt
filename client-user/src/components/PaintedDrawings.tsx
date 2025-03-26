@@ -1,7 +1,6 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { AppDispatch, RootStore } from './redux/store';
+import { AppDispatch, RootStore } from './redux/Store';
 import { fetchPaintedDrawingsByUserId } from './redux/PaintedDrawingsSlice';
 import { 
   Grid, 
@@ -32,7 +31,7 @@ const PaintedDrawings = () => {
     dispatch(fetchPaintedDrawingsByUserId(userId));
   }, [dispatch, userId]);
 
-  const handleDownload = (imageUrl: string, drawingId: string) => {
+  const handleDownload = (imageUrl: string, drawingId: number) => {
     const link = document.createElement('a');
     link.href = imageUrl;
     link.download = `${drawingId}_drawing.png`;
@@ -120,7 +119,6 @@ const PaintedDrawings = () => {
             background: 'linear-gradient(45deg, #FF6B6B, #4ECDC4)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
-            color: 'transparent',
           }}
         >
           {paintedDrawings.length} יצירות מרגשות שנוצרו בהשראה
@@ -160,7 +158,6 @@ const PaintedDrawings = () => {
                     }}>
                       <img 
                         src={drawing.imageUrl} 
-                        alt={drawing.id}
                         style={{
                           maxWidth: '100%',
                           maxHeight: '100%',

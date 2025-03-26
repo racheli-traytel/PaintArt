@@ -7,7 +7,7 @@ import { createTheme, CssBaseline } from '@mui/material';
 import { RouterProvider } from 'react-router-dom';
 import { Router } from './router';
 import { Provider } from 'react-redux';
-import Store from './components/redux/store';
+import Store from './components/redux/Store';
 
 // RTL cache configuration
 const cacheRtl = createCache({

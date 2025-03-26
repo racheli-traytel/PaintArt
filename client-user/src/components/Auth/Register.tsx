@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { 
   Box, 
@@ -14,7 +14,7 @@ import {
   Paper
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { AppDispatch, RootStore } from '../redux/store';
+import { AppDispatch, RootStore } from '../redux/Store';
 import { register } from '../redux/AuthSlice'; // נניח שיש לך פעולה signup
 import { useNavigate } from 'react-router-dom';  // ייבוא של useNavigate
 
@@ -69,10 +69,10 @@ const Register = () => {
       });
   };
 
-  const handleGoogleSignup = () => {
-    // Google signup implementation would go here
-    console.log('Google signup clicked');
-  };
+  // const handleGoogleSignup = () => {
+  //   // Google signup implementation would go here
+  //   console.log('Google signup clicked');
+  // };
 
   return (
     <Box

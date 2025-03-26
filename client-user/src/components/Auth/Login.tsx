@@ -5,8 +5,6 @@ import {
   Button, 
   TextField, 
   Typography, 
-  Checkbox, 
-  FormControlLabel, 
   Container, 
   CircularProgress,
   Paper,
@@ -17,12 +15,12 @@ import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
-import { AppDispatch, RootStore } from '../redux/store';
+import { AppDispatch, RootStore } from '../redux/Store';
 import { login } from '../redux/AuthSlice';
 
 // Custom styled components
 const primaryColor = '#6c5ce7'; 
-const LogoRing = styled(Box)(({ theme }) => ({
+const LogoRing = styled(Box)(({  }) => ({
   width: 200,
   height: 200,
   border: `20px solid ${primaryColor}`,
@@ -57,8 +55,8 @@ const Login = () =>
     password: ''
   });
 
-  const [rememberMe, setRememberMe] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  // const [rememberMe, setRememberMe] = useState(false);
+  const [_errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({

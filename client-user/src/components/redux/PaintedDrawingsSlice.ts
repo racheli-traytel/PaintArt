@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { RootStore } from './store';
+import { RootStore } from './Store';
 import PaintedDrawing from '../../types/PaintedDrawing';
 
 
@@ -25,7 +25,7 @@ export const addPaintedDrawing = createAsyncThunk(
 
 export const updatePaintedDrawing = createAsyncThunk(
   'paintedDrawings/updatePaintedDrawing',
-  async ({drawingId, userId, imageUrl,name }: { drawingId: number, userId: number, imageUrl: string,name:string }) => {
+  async ({id,drawingId, userId, imageUrl,name }: { drawingId: number, userId: number, imageUrl: string,name:string,id:number }) => {
     const response = await axios.put(`https://localhost:7004/api/PaintedDrawing/${id}`, {
       drawingId,
       userId,

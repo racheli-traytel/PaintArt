@@ -4,7 +4,7 @@ import Drawing from "../types/drawing";
 import RatingStars from "./RatingStars";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { RootStore } from "./redux/store";
+import { RootStore } from "./redux/Store";
 import { useNavigate } from "react-router-dom";
 import ErrorModal from "./ErrorModal";
 import RatingModal from "./RatingModal";
@@ -13,7 +13,7 @@ const DisplayDrawing = ({ drawing }: { drawing: Drawing }) => {
     const { user } = useSelector((state: RootStore) => state.auth);
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const [currentDrawingId, setCurrentDrawingId] = useState<number | null>(null);
+    const [_currentDrawingId, setCurrentDrawingId] = useState<number | null>(null);
   
     // מצב עבור מודל הדירוג
     const [isRatingModalOpen, setIsRatingModalOpen] = useState<boolean>(false);

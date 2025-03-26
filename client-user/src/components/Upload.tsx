@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootStore } from './redux/store';
+import { AppDispatch, RootStore } from './redux/Store';
 
 // MUI imports
 import { 
@@ -18,7 +18,6 @@ import PaletteIcon from '@mui/icons-material/Palette';
 // RTL setup
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import rtlPlugin from 'stylis-plugin-rtl';
-import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { fetchCategories } from './redux/CategorySlice';
@@ -27,7 +26,7 @@ import { addDrawing } from './redux/DrawingSlice';
 // Create rtl cache
 const cacheRtl = createCache({
   key: 'muirtl',
-  stylisPlugins: [prefixer, rtlPlugin],
+  stylisPlugins: [ rtlPlugin],
 });
 
 // צבעים צבעוניים יותר
@@ -156,13 +155,13 @@ const HeaderBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const ColorfulAvatar = styled(Avatar)(({ theme }) => ({
+const ColorfulAvatar = styled(Avatar)(({  }) => ({
   background: `linear-gradient(135deg, ${colorPalette.accent2}, ${colorPalette.accent3})`,
   width: 60,
   height: 60,
 }));
 
-const GradientButton = styled(Button)(({ theme }) => ({
+const GradientButton = styled(Button)(({  }) => ({
   background: colorPalette.uploadBtn,
   color: 'white',
   '&:hover': {

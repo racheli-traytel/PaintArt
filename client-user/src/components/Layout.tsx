@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import UserAvatar from './Avatar';
-import Footeri from './footer';
+import Footeri from './Footeri';
 
 const Layout: React.FC = () => {
   const user = JSON.parse(localStorage.getItem('user') || 'null');

@@ -4,7 +4,7 @@ import StarIcon from '@mui/icons-material/Star';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from './redux/store';
+import { AppDispatch } from './redux/Store';
 import { addRating } from './redux/DrawingSlice';
 
 interface RatingModalProps {

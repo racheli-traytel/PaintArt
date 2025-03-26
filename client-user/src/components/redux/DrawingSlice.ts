@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Drawing from '../../types/drawing';  // עדכן את הנתיב אם צריך
-import { RootStore } from './store';
+import { RootStore } from './Store';
 
 export const fetchAllDrawings = createAsyncThunk(
   'drawings/fetchAllDrawings',

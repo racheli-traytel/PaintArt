@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import axios from 'axios';
 
 const ImageGenerator = () => {
@@ -16,7 +16,7 @@ const ImageGenerator = () => {
       const response = await axios.post('http://localhost:5000/api/Image/generate', { prompt });
       const url = response.data.data[0].url;
       setImageUrl(url);
-    } catch (err) {
+    } catch (err:any) {
       setError(err.response?.data?.message || 'Failed to generate image.');
     } finally {
       setLoading(false);
@@ -51,7 +51,7 @@ const ImageGenerator = () => {
 
 // Simple CSS styles
 const styles = {
-  container: { textAlign: 'center', padding: '20px' },
+  container: { textAlign: 'center' as 'center', padding: '20px' },
   input: { width: '80%', padding: '10px', margin: '10px 0', fontSize: '16px' },
   button: { padding: '10px 20px', fontSize: '16px', cursor: 'pointer' },
   image: { maxWidth: '100%', marginTop: '20px' },

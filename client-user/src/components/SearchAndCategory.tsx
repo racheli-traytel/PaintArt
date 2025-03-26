@@ -7,7 +7,7 @@ import FeatureCards from './FeatureCards';
 
 const SearchAndCategory: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchTerm, _setSearchTerm] = useState<string>('');
   
   return (
     <>

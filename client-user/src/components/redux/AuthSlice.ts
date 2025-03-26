@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import User from "../../types/User";
-import { RootStore } from './store';
+import { RootStore } from './Store';
 
 // קריאת נתונים מ-Local Storage בעת עליית האפליקציה
 const storedUser = localStorage.getItem("user");
@@ -29,7 +29,7 @@ export const login = createAsyncThunk(
       const response = await axios.post('https://localhost:7004/api/Auth/login', credentials);
       console.log(response.data);
       return response.data;
-    } catch (error) {
+    } catch (error:any) {
       return thunkAPI.rejectWithValue(error.response?.data?.message || 'Login failed');
     }
   }
