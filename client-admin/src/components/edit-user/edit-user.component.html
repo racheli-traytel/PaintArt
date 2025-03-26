@@ -1,0 +1,64 @@
+<h1 mat-dialog-title>ערוך משתמש</h1>
+
+<div mat-dialog-content>
+  <form [formGroup]="editUserForm" (ngSubmit)="onSubmit()">
+    <div formGroupName="usereGroup">
+      <mat-form-field appearance="fill">
+        <mat-label>שם פרטי</mat-label>
+        <input matInput formControlName="firstName" />
+        @if(editUserForm.get('usereGroup.firstName')?.hasError('required'))
+        {
+        <mat-error>
+          שדה זה חובה
+        </mat-error>
+    }
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>שם משפחה</mat-label>
+        <input matInput formControlName="lastName" />
+        @if(editUserForm.get('usereGroup.lastName')?.hasError('required')){
+            <mat-error>
+                שדה זה חובה
+              </mat-error>
+        }
+    
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>אימייל</mat-label>
+        <input matInput formControlName="email" />
+        @if(editUserForm.get('usereGroup.email')?.hasError('required'))
+        {
+            <mat-error>
+                שדה זה חובה
+              </mat-error>
+        }
+       @if(editUserForm.get('usereGroup.email')?.hasError('email'))
+       {
+        <mat-error>
+            יש להזין כתובת אימייל תקינה
+          </mat-error>
+       }
+    
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="fill">
+      <mat-label>סיסמה</mat-label>
+      <input matInput type="password" formControlName="password" />
+      @if(editUserForm.get('password')?.hasError('required'))
+      {
+        <mat-error>
+            שדה זה חובה
+          </mat-error>
+      }
+    
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">ביטול</button>
+      <button mat-button type="submit" [disabled]="editUserForm.invalid">שמור</button>
+    </div>
+  </form>
+</div>

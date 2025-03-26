@@ -1,0 +1,16 @@
+<header class="header">
+    <nav class="nav">
+      <button mat-button class="btn black" [routerLink]="['/home/show-users']" routerLinkActive="buttonactive">
+        <mat-icon>menu_book</mat-icon>users
+      </button>
+
+      <button mat-button class="btn black"  [routerLink]="['/home/file-upload']" routerLinkActive="buttonactive">
+        <mat-icon>info</mat-icon>upload drawing
+      </button>
+
+      <button mat-button class="btn black"  [routerLink]="['/home/UserGrowth']" routerLinkActive="buttonactive">
+        <mat-icon>info</mat-icon>show stetistics
+      </button>
+    </nav>
+  </header>
+  <router-outlet></router-outlet>

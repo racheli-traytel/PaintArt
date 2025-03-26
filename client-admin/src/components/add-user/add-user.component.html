@@ -1,0 +1,40 @@
+<form [formGroup]="addUserForm" (ngSubmit)="onSubmit()" class="add-user-form mat-elevation-z4">
+    <div formGroupName="usereGroup">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" type="text" required>
+        @if (addUserForm.get('usereGroup.firstName')?.invalid && addUserForm.get('usereGroup.firstName')?.touched) {
+          <mat-error>First Name is required</mat-error>
+        }
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" type="text" required>
+        @if (addUserForm.get('usereGroup.lastName')?.invalid && addUserForm.get('usereGroup.lastName')?.touched) {
+          <mat-error>Last Name is required</mat-error>
+        }
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" required>
+        @if (addUserForm.get('usereGroup.email')?.invalid && addUserForm.get('usereGroup.email')?.touched) {
+          <mat-error>Please enter a valid email</mat-error>
+        }
+      </mat-form-field>
+    </div>
+  
+    <!-- אין צורך ב-formGroupName כאן -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" type="password" required>
+      @if (addUserForm.get('password')?.invalid && addUserForm.get('password')?.touched) {
+        <mat-error>Password is required</mat-error>
+      }
+    </mat-form-field>
+  
+    <button mat-raised-button color="accent" type="submit" [disabled]="addUserForm.invalid" routerLinkActive="buttonactive">
+      <mat-icon>add_circle</mat-icon> Add User
+    </button>
+  </form>

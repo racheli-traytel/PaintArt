@@ -1,0 +1,37 @@
+<div class="user-table-container">
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Name</th>
+        <th>Last Name</th>
+        <th>Joined</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(user of users; track user.id) {
+      <tr>
+        <td>{{ user.email }}</td>
+        <td>{{ user.firstName }}</td>
+        <td>{{ user.lastName }}</td>
+        <td>{{ user.createdAt }}</td>
+        <td class="actions">
+          <button class="icon-button" (click)="editUser(user)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button class="icon-button" (click)="deleteUser(user.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="add-user-container"  [routerLink]="['/home/add-user']" routerLinkActive="buttonactive">
+    <button class="add-user-button">
+      <mat-icon>add</mat-icon> Add User
+    </button>
+  </div>
+</div>

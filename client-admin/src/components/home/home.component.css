@@ -1,0 +1,41 @@
+.header {
+    display: flex;
+    justify-content: flex-start; /* הצבת הכפתורים בצד שמאל */
+    align-items: center;
+    background-color: black; /* צבע רקע שחור להדר */
+    padding: 15px;
+}
+
+.nav {
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    color: white !important; /* טקסט לבן */
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    border-radius: 8px;
+    padding: 10px 15px;
+    background-color: black; /* רקע שחור לכפתורים */
+    color: white; /* טקסט לבן בכפתורים */
+    border: 2px solid white; /* גבול לבן לכפתורים */
+}
+
+.black:hover {
+    background-color: gray; /* שינוי צבע רקע בה-hover */
+    opacity: 0.8;
+}
+
+:host {
+    display: block;
+    width: 100%;
+    height: 100vh; /* התמונה תתפוס את כל גובה המסך */
+    /* background-image: url('../../pictures/background.jpg'); */
+    background-size: cover; /* התמונה תתפוס את כל הרקע */
+    background-position: center center; /* מיקום התמונה במרכז */
+    background-repeat: no-repeat; /* לא לחזור על התמונה */
+}
