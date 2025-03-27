@@ -2,9 +2,7 @@ import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/Home';
 import UserAvatar from './Avatar';
 import Footeri from './Footeri';
 
@@ -93,20 +91,7 @@ const Layout: React.FC = () => {
               </>
             )}
           </div>
-          <Typography
-            variant="h6"
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              fontFamily: 'Arial, sans-serif',
-              fontWeight: 'bold',
-              color: 'white',
-              direction: 'rtl',
-            }}
-          >
-            PlayArt
-            <HomeIcon sx={{ ml: 1 }} />
-          </Typography>
+          <img src="pictures/LogoPaintArt.png" style={{width:"75px"}}/>
         </Toolbar>
       </AppBar>
 

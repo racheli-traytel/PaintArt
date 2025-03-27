@@ -221,7 +221,7 @@ const Footer: React.FC = () => {
         <Divider sx={{ mb: 3, bgcolor: 'rgba(255,255,255,0.2)' }} />
         
         <Typography variant="body2" align="center" sx={{ pt: 2 }}>
-          © {new Date().getFullYear()} PlayArt. כל הזכויות שמורות.
+          © {new Date().getFullYear()} PaintArt. כל הזכויות שמורות.
         </Typography>
       </Container>
     </FooterContainer>

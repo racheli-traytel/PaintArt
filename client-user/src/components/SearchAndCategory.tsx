@@ -14,15 +14,23 @@ const SearchAndCategory: React.FC = () => {
       <Box sx={{ 
         pt: 10, 
         pb: 5, 
-        background: 'linear-gradient(135deg, #ffd700 0%, #ffa500 100%)',
+        background: 'linear-gradient(135deg, #FFD700, #FF8C69, #90EE90, #FFB14C, #FFF700)',
+        backgroundSize: '200% 200%',
+        animation: 'gradient-shift 8s ease infinite',
         width: '100%',
         mt: 0,
-        textAlign: 'center'
+        textAlign: 'center',
+        '@keyframes gradient-shift': {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' }
+        }
       }}>
         <Container maxWidth="lg">
           <Typography variant="h3" sx={{ 
             fontWeight: 'bold', 
             color: '#333',
+            textShadow: '1px 1px 2px rgba(255,255,255,0.5)',
             mb: 1,
             direction: 'rtl',
             fontSize: { xs: '1.8rem', sm: '2.3rem', md: '2.5rem' }
@@ -55,10 +63,10 @@ const SearchAndCategory: React.FC = () => {
         }}>
           <SearchDrawings setSelectedCategory={setSelectedCategory} />
           <CategoriesButtons setSelectedCategory={setSelectedCategory} />
-          </Box>
-          </Container>
-          <DrawingsDisplay selectedCategory={selectedCategory} searchTerm={searchTerm} />
-         <FeatureCards/> 
+        </Box>
+      </Container>
+      <DrawingsDisplay selectedCategory={selectedCategory} searchTerm={searchTerm} />
+      <FeatureCards/> 
     </>
   );
 };
