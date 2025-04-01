@@ -42,4 +42,6 @@
 }
 body {
   cursor: url('pictures/color.webp'), auto;
+    direction: rtl;
+    text-align: right;
 }

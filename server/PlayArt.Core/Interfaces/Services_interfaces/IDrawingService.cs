@@ -18,5 +18,7 @@ namespace PlayArt.Core.Interfaces.Services_interfaces
         List<Drawing> SearchDrawings(string searchTerm);
         Task<DrawingDTO> AddRatingAsync(int DrawingId, double rating);
         List<Drawing> GetTopRatedDrawings(int count = 10);
+        Task<List<DrawingDTO>> GetTopRatedDrawingsByUserAsync(int userId, int count = 10);
+        IEnumerable<DrawingDTO> GetDrawingsByUserId(int userId);
     }
 }

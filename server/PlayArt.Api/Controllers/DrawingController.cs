@@ -5,6 +5,7 @@ using PlayArt.Api.Models;
 using AutoMapper;
 using PlayArt.Core.DTOs;
 using PlayArt.Core.entities;
+using Newtonsoft.Json;
 
 namespace PlayArt.Controllers
 {
@@ -33,6 +34,14 @@ namespace PlayArt.Controllers
             if (drawing == null) return NotFound("Drawing not found.");
             return Ok(drawing);
         }
+
+        [HttpGet("ByUser/{userId}")]
+        public ActionResult GetDrawingsByUserId(int userId)
+        {
+            var drawings = _drawingService.GetDrawingsByUserId(userId);
+            return Ok( drawings);
+        }
+
         [HttpGet("ByCategory/{category}")]
         public ActionResult GetWorksheets(DrawingCategory category)
         {
@@ -73,6 +82,7 @@ namespace PlayArt.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] DrawingPostModel drawing)
         {
+            Console.WriteLine(JsonConvert.SerializeObject(drawing));
             if (drawing == null) return BadRequest();
             var drawingDto = _mapper.Map<DrawingDTO>(drawing);
             var result = await _drawingService.AddDrawingAsync(drawingDto);
@@ -80,6 +90,8 @@ namespace PlayArt.Controllers
                 return BadRequest();
             return Ok(result);
         }
+
+
 
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] DrawingPostModel drawing)
@@ -98,5 +110,15 @@ namespace PlayArt.Controllers
             if (!success) return NotFound();
             return Ok(success);
         }
+
+        [HttpGet("top-rated/{userId}/{count}")]
+        //[Authorize]
+        public async Task<ActionResult> GetTopRatedDrawingsByUser(int userId, int count = 10)
+        {
+            var drawings = await _drawingService.GetTopRatedDrawingsByUserAsync(userId, count);
+            return Ok(drawings);
+        }
+
+
     }
 }

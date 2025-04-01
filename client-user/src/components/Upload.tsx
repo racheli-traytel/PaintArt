@@ -22,6 +22,7 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { fetchCategories } from './redux/CategorySlice';
 import { addDrawing } from './redux/DrawingSlice';
+import api from './api';
 
 // Create rtl cache
 const cacheRtl = createCache({
@@ -171,7 +172,7 @@ const GradientButton = styled(Button)(({  }) => ({
 
 const ArtUploader = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const user = JSON.parse(localStorage.getItem("user") || "null");
+  const user = JSON.parse(sessionStorage.getItem("user") || "null");
   const { items } = useSelector((state: RootStore) => state.categories);
   const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -236,14 +237,14 @@ const ArtUploader = () => {
   
     try {
       // שלב 1: קבלת Presigned URL מהשרת
-      const response = await axios.get('https://localhost:7004/api/upload/presigned-url', {
+      const response = await api.get('/upload/presigned-url', {
         params:
         { 
           fileName: file.name,
           title: title,
           description: description,
           category: category
-        }
+        },
       });
   
       const presignedUrl = response.data.url;
@@ -262,7 +263,7 @@ const ArtUploader = () => {
       });
   
       // שלב 3: קבלת URL להורדה לאחר ההעלאה
-      const downloadResponse = await axios.get(`https://localhost:7004/api/upload/download-url/${file.name}`);
+      const downloadResponse = await api.get(`/upload/download-url/${file.name}`);
       const downloadUrl = downloadResponse.data;
       console.log('Download URL:', downloadUrl);
   
@@ -306,8 +307,8 @@ const ArtUploader = () => {
           sx={{ 
             maxWidth: 1000, 
             mx: 'auto', 
-            p: 4, 
-            my: 4, 
+            p: 13, 
+            my: 13, 
             background: `linear-gradient(to bottom, ${colorPalette.cardBg} 0%, ${colorPalette.background} 100%)`,
             boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
           }}
@@ -551,7 +552,7 @@ const ArtUploader = () => {
                 '&.Mui-disabled': {
                   background: '#e0e0e0',
                 }
-              }}
+              }} 
             >
               {isUploading ? '...מעלה' : 'העלאה'}
             </GradientButton>

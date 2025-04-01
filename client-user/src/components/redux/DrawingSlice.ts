@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Drawing from '../../types/drawing';  // עדכן את הנתיב אם צריך
 import { RootStore } from './Store';
+import api from '../api';
 
 export const fetchAllDrawings = createAsyncThunk(
   'drawings/fetchAllDrawings',
@@ -43,8 +44,8 @@ export const fetchDrawingsByCategory = createAsyncThunk(
 export const addRating = createAsyncThunk(
   'drawings/addRating',
   async ({ drawingId, value }: { drawingId: number, value: number }) => {
-    const response = await axios.post(
-      `https://localhost:7004/api/Drawing/Rate/${drawingId}`,
+    const response = await api.post(
+      `/Drawing/Rate/${drawingId}`,
       value,  // שלח רק את הדירוג כערך מספרי ולא כ-object
       {
         headers: {
@@ -60,7 +61,7 @@ export const addRating = createAsyncThunk(
 export const fetchRating = createAsyncThunk(
   'drawings/fetchRating',
   async (drawingId: number) => {
-    const response = await axios.get(`https://localhost:7004/api/Drawing/${drawingId}`);
+    const response = await api.get(`/Drawing/${drawingId}`);
     return response.data.avgRating;
   }
 );
@@ -69,16 +70,30 @@ export const fetchRating = createAsyncThunk(
 export const addDrawing = createAsyncThunk(
   'drawings/addDrawing',
   async ({ name, title, description, category, imageUrl, userId, isGeneratedByAI }: { name: string, title: string, description: string, category: number, imageUrl: string, userId: number, isGeneratedByAI: boolean }) => {
-    const response = await axios.post('https://localhost:7004/api/Drawing', { name, title, description, category, imageUrl, userId, isGeneratedByAI }, {
+    console.log(name, title, description, category, imageUrl, userId, isGeneratedByAI);
+    const response = await api.post('/Drawing', { name, title, description, category, imageUrl, userId, isGeneratedByAI }, {
     });
     return response.data;
+  }
+);
+
+// Async thunk לשליפת ציורים לפי userId
+export const fetchDrawingsByUser = createAsyncThunk(
+  'drawings/fetchDrawingsByUser',
+  async (userId: number) => {
+    const response = await api.get(`/Drawing/ByUser/${userId}`);
+    return response.data; // מניח שהשרת מחזיר את הציורים כ-array
   }
 );
 
 // Drawing slice
 const drawingsSlice = createSlice({
   name: 'drawings',
-  initialState: { drawings: [] as Drawing[], topRatedDrawings: [] as Drawing[], status: 'idle', error: null as string | null },
+  initialState: {     drawings: [] as Drawing[], 
+    topRatedDrawings: [] as Drawing[], 
+    userDrawings: [] as Drawing[], // הוספנו משתנה חדש לאחסון ציורים לפי משתמש
+    status: 'idle', 
+    error: null as string | null  },
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -142,9 +157,12 @@ const drawingsSlice = createSlice({
       })
       // הוספת ציור
       .addCase(addDrawing.fulfilled, (state, action) => {
+        console.log("succeed");
+        
         state.drawings.push(action.payload);
       })
       .addCase(addDrawing.rejected, (state, action) => {
+        
         console.log("action.error.message", action.error.message);
 
         state.error = action.payload as string || action.error.message || 'Failed to add drawing';
@@ -172,6 +190,18 @@ const drawingsSlice = createSlice({
       .addCase(fetchAllDrawings.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload as string || action.error.message || 'Failed to fetch all drawings';
+      })
+      // עבור ציורים של משתמש
+      .addCase(fetchDrawingsByUser.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchDrawingsByUser.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.userDrawings = action.payload; // שומר את הציורים במשתנה החדש
+      })
+      .addCase(fetchDrawingsByUser.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload as string || action.error.message || 'Failed to fetch drawings by user';
       })
       
 

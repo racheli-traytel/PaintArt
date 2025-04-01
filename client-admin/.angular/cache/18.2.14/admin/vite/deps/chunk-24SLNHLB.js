@@ -3,7 +3,7 @@ import {
   __spreadValues
 } from "./chunk-WDMUDEB6.js";
 
-// node_modules/@kurkle/color/dist/color.esm.js
+// ../../../../node_modules/@kurkle/color/dist/color.esm.js
 function round(v) {
   return v + 0.5 | 0;
 }
@@ -598,7 +598,7 @@ var Color = class _Color {
   }
 };
 
-// node_modules/chart.js/dist/chunks/helpers.segment.js
+// ../../../../node_modules/chart.js/dist/chunks/helpers.segment.js
 function noop() {
 }
 var uid = /* @__PURE__ */ (() => {
@@ -3009,7 +3009,7 @@ function styleChanged(style, prevStyle) {
   return JSON.stringify(style, replacer) !== JSON.stringify(prevStyle, replacer);
 }
 
-// node_modules/chart.js/dist/chart.js
+// ../../../../node_modules/chart.js/dist/chart.js
 var Animator = class {
   constructor() {
     this._request = null;
@@ -15010,4 +15010,4 @@ chart.js/dist/chart.js:
    * Released under the MIT License
    *)
 */
-//# sourceMappingURL=chunk-2KFXPKYG.js.map
+//# sourceMappingURL=chunk-24SLNHLB.js.map

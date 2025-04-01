@@ -43,8 +43,8 @@ const RatingModal: React.FC<RatingModalProps> = ({ open, onClose, drawingId, dra
     setHoveredRating(0);
   };
 
-  const handleSubmitRating = () => {
-    dispatch(addRating({ drawingId, value: rating }));
+  const handleSubmitRating =async () => {
+   await dispatch(addRating({ drawingId, value: rating }));
     // כאן יש להוסיף את הלוגיקה לשליחת הדירוג לשרת
     console.log(`Submitting rating ${rating} for drawing ID ${drawingId}`);
     setIsSubmitted(true);
@@ -295,7 +295,8 @@ const RatingModal: React.FC<RatingModalProps> = ({ open, onClose, drawingId, dra
                     py: 1,
                     background: 'linear-gradient(135deg, #5e60ce, #6930c3)',
                     boxShadow: '0 5px 15px rgba(94, 96, 206, 0.3)',
-                    '&:hover': {
+                    '&:hover': 
+                    {
                       background: 'linear-gradient(135deg, #5e60ce, #6930c3)',
                       boxShadow: '0 8px 25px rgba(94, 96, 206, 0.4)',
                       transform: 'translateY(-3px)'
@@ -319,3 +320,4 @@ const RatingModal: React.FC<RatingModalProps> = ({ open, onClose, drawingId, dra
 };
 
 export default RatingModal;
+

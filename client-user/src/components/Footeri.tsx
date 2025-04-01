@@ -179,7 +179,7 @@ const Footer: React.FC = () => {
 
           {/* PlayArt Column */}
           <Grid item xs={12} sm={6} md={3}>
-            <PlayArtLogo variant="h4">PlayArt</PlayArtLogo>
+            <PlayArtLogo variant="h4">PaintArt</PlayArtLogo>
             <Typography variant="body2" sx={{ mb: 2, textAlign: 'right' }}>
               האתר המוביל ליצירת צביעה לילדים עם מגוון עצום של דפי צביעה, משחקי צביעה אונליין ופעילויות יצירה להנאה ולמידה
             </Typography>

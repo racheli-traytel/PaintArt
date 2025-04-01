@@ -16,7 +16,7 @@ namespace PlayArt.Core.entities
         public int DrawingId { get; set; }  // הציור המקורי שנצבע
         [ForeignKey(nameof(DrawingId))]    
         public Drawing? Drawing { get; set; }
-       
+        public bool IsDeleted { get; set; } = false;
         public int UserId { get; set; }  // המשתמש שצבע את הציור
 
         [ForeignKey(nameof(UserId))]

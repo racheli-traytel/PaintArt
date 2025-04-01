@@ -65,22 +65,18 @@ namespace PlayArt.Service
             // בודק אם המשתמש כבר קיים לפי ה-Id או ה-Email
             if (_repository.GetById(user.Id) == null && _repository.GetByUserByEmail(user.Email) == null)
             {
-                // ממפה את ה-DTO לאובייקט User
                 var current = _mapper.Map<User>(user);
 
-                // שדה הסיסמה נשמר רק ב-User ולא ב-DTO
                 current.Password = _passwordHasher.HashPassword(current, password); // Hashing הסיסמה שהתקבלה
 
                 current.CreatedAt = DateTime.UtcNow;
 
-                // מוסיף את המשתמש למאגר
                 var result = await _repository.AddAsync(current);
                 await _repositoryManager.SaveAsync();
 
-                // מחזיר את ה-DTO של המשתמש החדש (ללא סיסמה)
                 return _mapper.Map<UserDTO>(result);
             }
-            return null; // אם המשתמש כבר קיים
+            return null;
         }
 
 

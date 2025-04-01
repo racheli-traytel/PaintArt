@@ -11,5 +11,7 @@ namespace PlayArt.Api.Models
         public string ImageUrl { get; set; } = string.Empty;
         public int? UserId { get; set; }
         public bool IsGeneratedByAI { get; set; }
+        public DateTime CreatedAt { get; set; }
+
     }
 }

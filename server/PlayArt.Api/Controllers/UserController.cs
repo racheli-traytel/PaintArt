@@ -23,13 +23,14 @@ namespace PlayArt.Controllers
         }
 
         [HttpGet]
-
+        //[Authorize(Policy = "AdminOnly")]
         public ActionResult Get()
         {
             return Ok(_userService.GetList());
         }
 
         [HttpGet("growth")]
+        //[Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<IEnumerable<UserGrowthDTO>>> GetUserGrowthByMonth()
         {
             var userGrowthData = _userService.GetUserGrowthByMonth();
@@ -47,6 +48,7 @@ namespace PlayArt.Controllers
         //}
 
         [HttpGet("{id}")]
+        //[Authorize(Policy = "AdminOnly")]
         public ActionResult<User> GetId(int id)
         {
             if (id < 0) return BadRequest();
@@ -58,6 +60,7 @@ namespace PlayArt.Controllers
        
 
         [HttpPut("{id}")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult> Put(int id, [FromBody] UserPostModel user)
         {
             if (id < 0|| user==null) return BadRequest();
@@ -67,6 +70,7 @@ namespace PlayArt.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult> Delete(int id)
         {
             if (id < 0) return BadRequest();
@@ -76,6 +80,7 @@ namespace PlayArt.Controllers
         }
 
         [HttpGet("Email/{email}")]
+        [Authorize(Policy = "AdminOnly")]
         public ActionResult<User> GetByEmail(string email)
         {
             if (string.IsNullOrEmpty(email)) return BadRequest();

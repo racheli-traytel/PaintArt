@@ -8,6 +8,7 @@ type Drawing={
     userId:number,
     isGeneratedByAI: boolean,
     avgRating:number
-    countRating:number
+    countRating:number,
+    createdAt:Date
 }
 export default Drawing

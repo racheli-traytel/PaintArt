@@ -4,8 +4,8 @@ import User from "../../types/User";
 import { RootStore } from './Store';
 
 // קריאת נתונים מ-Local Storage בעת עליית האפליקציה
-const storedUser = localStorage.getItem("user");
-const storedToken = localStorage.getItem("token");
+const storedUser = sessionStorage.getItem("user");
+const storedToken = sessionStorage.getItem("token");
 
 interface AuthState {
   token: string | null;
@@ -15,7 +15,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  token: storedToken ? JSON.parse(storedToken) : null,
+  token: storedToken,
   user: storedUser ? JSON.parse(storedUser) : null,
   loading: false,
   error: null,
@@ -55,8 +55,8 @@ const authSlice = createSlice({
     logout: (state) => {
       state.token = null;
       state.user = null;
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
+      sessionStorage.removeItem("user");
+      sessionStorage.removeItem("token");
     },
   },
   extraReducers: (builder) => {
@@ -69,8 +69,9 @@ const authSlice = createSlice({
         state.loading = false;
         state.token = action.payload.token;
         state.user = action.payload.user;
-        localStorage.setItem("user", JSON.stringify(action.payload.user));
-        localStorage.setItem("token", JSON.stringify(action.payload.token));
+        sessionStorage.setItem("user", JSON.stringify(action.payload.user));
+        sessionStorage.setItem("token", action.payload.token);
+        
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
@@ -85,8 +86,8 @@ const authSlice = createSlice({
         state.loading = false;
         state.token = action.payload.token;
         state.user = action.payload.user;
-        localStorage.setItem('user', JSON.stringify(action.payload.user));
-        localStorage.setItem("token", JSON.stringify(action.payload.token));
+        sessionStorage.setItem('user', JSON.stringify(action.payload.user));
+        sessionStorage.setItem("token", action.payload.token);
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false;

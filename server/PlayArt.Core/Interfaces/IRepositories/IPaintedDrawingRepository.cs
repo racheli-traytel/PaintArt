@@ -10,5 +10,6 @@ namespace PlayArt.Core.Interfaces.IRepositories
    public interface IPaintedDrawingRepository:IRepository<PaintedDrawing>
     {
         List<PaintedDrawing> GetPaintedDrawingsByUserId(int userId);
+        List<PaintedDrawing> GetDeltedPaintedDrawingsByUserId(int userId);
     }
 }

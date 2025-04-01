@@ -8,6 +8,9 @@ import ArtUploader from './components/Upload'
 import PaintCanvas from './components/PaintCanvas'
 import TopRatedDrawings from './components/Popular'
 import Layout from './components/Layout'
+import MyMostPopularDrawings from './components/MyMostPopularDrawings'
+import PaintArtDashboard from './components/PaintArtDashboard'
+import RecyclingBinPage from './components/RecyclingBinPage'
 
 export const Router = createBrowserRouter([
   {
@@ -20,12 +23,14 @@ export const Router = createBrowserRouter([
       { index:true, element: <SearchAndCategory /> },
       { path:':id', element: <PaintCanvas isPainted={false}/> },
       {
-        path: '/personal-area',
-        element: <><PersonalArea/></>,
+        path: '/personal-area', element: <PersonalArea/>,
         children:[
+          {index:true , element:<PaintArtDashboard/>},
           { path: 'painted-drawings', element:<PaintedDrawings/> },
+          { path: 'RecyclingBinPage', element:<RecyclingBinPage/> },
           { path: 'upload', element:<ArtUploader/> },
           { path: ':id', element:<PaintCanvas isPainted={true}/> },
+          { path: 'mypopular', element:<MyMostPopularDrawings/> },
 
         ]
       }

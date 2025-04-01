@@ -33,12 +33,12 @@ public class AuthController : ControllerBase
         var user = _iuserservice.GetUserByEmail(model.Email);
         if (role == "Admin")
         {
-            var token = _authService.GenerateJwtToken(model.Email, new[] { "Admin" });
+            var token = _authService.GenerateJwtToken(user.Id,model.Email, new[] { "Admin" });
             return Ok(new { Token = token,User=user});
         }
         else if (role == "User")
         {
-            var token = _authService.GenerateJwtToken(model.Email, new[] { "User" });
+            var token = _authService.GenerateJwtToken(user.Id, model.Email, new[] { "User" });
             return Ok(new { Token = token,User=user});
         }
         return Unauthorized("user doesnt exsist");
@@ -65,7 +65,7 @@ public class AuthController : ControllerBase
         if (userRole == null)
             return BadRequest("User role is invalid");
 
-        var token = _authService.GenerateJwtToken(model.Email, new[] { model.RoleName });
+        var token = _authService.GenerateJwtToken(existingUser.Id,model.Email, new[] { model.RoleName });
         return Ok(new { Token = token, User = existingUser });
     }
 

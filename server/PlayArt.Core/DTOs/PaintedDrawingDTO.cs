@@ -14,5 +14,6 @@ namespace PlayArt.Core.DTOs
         public int UserId { get; set; }
         public string imageUrl { get; set; }
         public DateTime PaintedAt { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

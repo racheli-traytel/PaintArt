@@ -65,9 +65,47 @@ namespace PlayArt.Service
             await _repositoryManager.SaveAsync();
             return res;
         }
+
+        public async Task<bool> SoftDeletAsync(int id)
+        {
+            if (id < 0)
+                return false;
+            var Drawing = _repository.GetById(id);
+            if (Drawing == null)
+                return false;
+            Drawing.IsDeleted = true;
+            var result = await _repository.UpdateAsync(Drawing, id);
+            await _repositoryManager.SaveAsync();
+            return result != null;
+
+        }
+
+        public async Task<bool> RecoverAsync(int id)
+        {
+            if (id < 0)
+                return false;
+            var Drawing = _repository.GetById(id);
+            if (Drawing == null)
+                return false;
+            Drawing.IsDeleted = false;
+            var result = await _repository.UpdateAsync(Drawing, id);
+            await _repositoryManager.SaveAsync();
+            return result != null;
+
+        }
         public IEnumerable<PaintedDrawingDTO> GetPaintedDrawingsByUserId(int userId)
         {
             var paintedDrawings = _repository.GetPaintedDrawingsByUserId(userId);
+
+            if (paintedDrawings == null || !paintedDrawings.Any())
+                return new List<PaintedDrawingDTO>();  // אם אין ציורים, מחזיר מערך ריק
+
+            return _mapper.Map<IEnumerable<PaintedDrawingDTO>>(paintedDrawings);
+        }
+
+        public IEnumerable<PaintedDrawingDTO> GetDeletdPaintedDrawingsByUserId(int userId)
+        {
+            var paintedDrawings = _repository.GetDeltedPaintedDrawingsByUserId(userId);
 
             if (paintedDrawings == null || !paintedDrawings.Any())
                 return new List<PaintedDrawingDTO>();  // אם אין ציורים, מחזיר מערך ריק

@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../services/auth.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,14 @@ import { AuthService } from '../../services/auth.service';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,MatIconModule,
-    MatCardModule,  MatError],  // הוספת קומפוננטת השגיאה לקומפוננטה
+    MatCardModule,  MatError,
+      ReactiveFormsModule,
+      MatInputModule,
+      MatButtonModule,
+      MatCheckboxModule,
+      MatIconModule,
+      MatCardModule
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -28,61 +36,49 @@ export class LoginComponent implements OnInit {
   showError: boolean = false;  // משתנה לניהול הצגת השגיאה
 
   constructor(
-    public dialogRef: MatDialogRef<LoginComponent>,
     private fb: FormBuilder,
     private authservice: AuthService,
     private router: Router
   ) {}
+  hide = true;
 
   ngOnInit(): void {
+    
     this.addUserForm = this.fb.group({
-      userGroup: this.fb.group({
-        email: ['', Validators.compose([Validators.required, Validators.email])],
-        password: ['', Validators.required],
-      }),
-    });
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+      rememberMe: [false]
+    })
   }
 
   onSubmit() {
     if (this.addUserForm.valid) {
-      const {email,password} = this.addUserForm.value.userGroup;
-
+      const { email, password } = this.addUserForm.value; // אין יותר userGroup
+  
       this.authservice.login(email, password).subscribe({
         next: (response) => {
           console.log('User logged in successfully', response);
           sessionStorage.setItem('token', response.token);
-          console.log("id"+response.user.id);
-          
-      sessionStorage.setItem('userId', response.user.id);
-          console.log("user",response);
-          
-          this.dialogRef.close();
+          sessionStorage.setItem('userId', response.user.id);
+          console.log("user", response);
           this.router.navigate(['/home']);
         },
         error: (err) => {
-          // עדכון השגיאה
-          if (err.status === 400)
-          {
+          if (err.status === 400) {
             this.errormessage = 'Invalid credentials';
           } else if (err.status === 401) {
-            this.errormessage = 'only adnim can login';
+            this.errormessage = 'only admin can login';
           } else {
-            console.log("err.status",err.status);
-            
+            console.log("err.status", err.status);
             this.errormessage = 'An unexpected error occurred';
           }
-          this.showError = true;  // הצגת השגיאה
+          this.showError = true;
         }
       });
     } else {
       this.errormessage = 'Please fill in all fields correctly.';
       this.showError = true;
     }
-    console.log( this.errormessage );
-    
   }
-
-  onErrorClosed() {
-    this.showError = false;  // הסתרת השגיאה לאחר סגירתה
-  }
+  
 }

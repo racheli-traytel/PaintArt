@@ -7,7 +7,7 @@ import UserAvatar from './Avatar';
 import Footeri from './Footeri';
 
 const Layout: React.FC = () => {
-  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  const user = JSON.parse(sessionStorage.getItem('user') || 'null');
   const location = useLocation();
   const isPersonalArea = location.pathname.includes('personal-area');
   return (
@@ -91,8 +91,8 @@ const Layout: React.FC = () => {
               </>
             )}
           </div>
-          <img src="pictures/LogoPaintArt.png" style={{width:"75px"}}/>
-        </Toolbar>
+          <img src={`/pictures/LogoPaintArt.png?${Date.now()}`} style={{ width: "75px" }} />
+          </Toolbar>
       </AppBar>
 
       {/* הוספת מרווח כלפי מעלה כך שהתוכן לא יוסתר תחת ה-Header */}

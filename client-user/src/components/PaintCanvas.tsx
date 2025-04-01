@@ -1,16 +1,33 @@
-import  { useRef, useState, useEffect } from 'react';
-import { Button, Slider, Grid, Typography, Box } from '@mui/material';
-import { Print, Palette } from '@mui/icons-material';
-import Drawing from '../types/drawing';
+import React, { useRef, useState, useEffect } from 'react';
+import {
+  Button,
+  Slider,
+  Typography,
+  Box,
+  IconButton,
+  Tooltip,
+  Snackbar,
+  Alert
+} from '@mui/material';
+import {
+  Print,
+  Palette,
+  Brush,
+  Delete,
+  Save,
+  Download,
+  Clear
+} from '@mui/icons-material';
+import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootStore } from './redux/Store';
-import axios from 'axios';
-import { addPaintedDrawing } from './redux/PaintedDrawingsSlice';
+import { addPaintedDrawing, fetchPaintedDrawingsByUserId } from './redux/PaintedDrawingsSlice';
+import Drawing from '../types/drawing';
 import PaintedDrawing from '../types/PaintedDrawing';
 import { fetchAllDrawings } from './redux/DrawingSlice';
-//
-//
+import api from './api';
+
 const PaintCanvas = ({ isPainted }: { isPainted: boolean }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams();
@@ -20,14 +37,50 @@ const PaintCanvas = ({ isPainted }: { isPainted: boolean }) => {
   const drawing = drawingList.find(x => x.id === (id ? parseInt(id, 10) : undefined));
 
   const { user } = useSelector((state: RootStore) => state.auth)
+  const userId:number=user? user.id:1
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+
   const [color, setColor] = useState<string>('#000000');
   const [brushSize, setBrushSize] = useState<number>(5);
   const [isDrawing, setIsDrawing] = useState<boolean>(false);
-  const [isEraseMode, _setIsEraseMode] = useState<boolean>(false);
-  const imageUrl = drawing?.imageUrl
-  console.log("imageUrl", paintedDrawings);
+  const [isEraseMode, setIsEraseMode] = useState<boolean>(false);
+  const [imageUrl, setImageUrl] = useState<string>('');
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+  const [snackbarMessage, setSnackbarMessage] = useState<string>('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
+
+  const colorPalette = [
+    '#FF0000', '#00FF00', '#0000FF', '#FFFF00',
+    '#FF00FF', '#00FFFF', '#000000', '#808080',
+    '#FFA500', '#800080', '#008000', '#FFD700',
+    '#A52A2A', '#D2691E', '#C71585', '#B0C4DE'
+  ];
+  useEffect(() => {
+    if (id && drawings.length > 0) {
+      const drawing = drawings.find(x => x.id === parseInt(id, 10));
+      console.log("Drawing:", drawing); // וודא שהציור נטען
+    }
+  }, [id, drawings,drawing]);
+
+
+  useEffect(() => {
+    const fetchImageUrl = async () => {
+      try {
+        const downloadResponse = await api.get(`/upload/download-url/${drawing?.name}`);
+        setImageUrl(downloadResponse.data);
+      } catch (error) {
+        console.error("Error fetching image:", error);
+      }
+    };
+
+    if (drawing) {
+      fetchImageUrl();
+    }
+    console.log('url',imageUrl);
+    console.log('url',drawing);
+
+  }, [drawing]);
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -39,7 +92,7 @@ const PaintCanvas = ({ isPainted }: { isPainted: boolean }) => {
         const img = new Image();
         img.onerror = () => {
           console.error("Failed to load image:", imageUrl);
-          alert(` שגיאה בטעינת התמונה ${imageUrl}`);
+          showSnackbar(`שגיאה בטעינת התמונה`, 'error');
         };
         img.crossOrigin = "anonymous";
         img.src = imageUrl;
@@ -50,143 +103,31 @@ const PaintCanvas = ({ isPainted }: { isPainted: boolean }) => {
         };
       }
     }
-  }, [imageUrl]);
+  }, [imageUrl,drawings,drawing]);
 
   useEffect(() => {
     if (drawings.length === 0) {
       dispatch(fetchAllDrawings());
     }
-  }, [dispatch, drawings.length]);
+  }, [dispatch, drawings,drawing]);
 
-  const uploadPaintedDrawing = async () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    // ממיר את הציור ל-Blob
-    canvas.toBlob(async (blob) => {
-      if (!blob) return;
-
-
-      try {
-        const fileName = `${Date.now() || 'painted_drawing'}.png`;
-        const title = (drawing as Drawing).title || 'Painted Drawing';
-        const description = (drawing as Drawing).description || 'A painted drawing';
-        const category = (drawing as Drawing).category || 'Uncategorized';
-        console.log(fileName);
-        // שלב 1: קבלת Presigned URL מהשרת
-        const response = await axios.get('https://localhost:7004/api/upload/presigned-url', {
-          params: {
-            fileName: fileName,
-            title: title,
-            description: description,
-            category: category
-          }
-        });
-
-        const presignedUrl = response.data.url;
-        console.log("presignedUrl ", presignedUrl);
-console.log("blob",blob);
-
-        // שלב 2: העלאת הקובץ ישירות ל-S3
-        await axios.put(presignedUrl, blob, {
-          headers: {
-            'Content-Type': 'image/png',
-          }
-        });
-
-        // שלב 3: קבלת URL להורדה לאחר ההעלאה
-        const downloadResponse = await axios.get(`https://localhost:7004/api/upload/download-url/${fileName}`);
-        const downloadUrl = downloadResponse.data;
-        alert(downloadUrl);
-
-        // שלב 4: עדכון ה-Redux עם הציור החדש
-        const newDrawing = {
-          drawingId: drawing?.id || 0,
-          userId: user?.id || 0,
-          imageUrl: downloadUrl as string,
-          name:fileName
-        };
-
-        console.log("newDrawing", newDrawing);
-        dispatch(addPaintedDrawing(newDrawing));
-        alert(`הציור הצבוע הועלה בהצלחה! ניתן לצפות בו כאן: ${downloadUrl}`);
-
-      } catch (error) {
-        console.error('Error uploading painted drawing:', error);
-        alert('שגיאה בהעלאת הציור הצבוע');
-      }
-    }, 'image/png');
+  useEffect(() => {
+    if (drawings.length === 0) {
+      dispatch(fetchPaintedDrawingsByUserId(userId));
+    }
+  }, [dispatch, drawings,drawing]);
+  
+  const showSnackbar = (message: string, severity: 'success' | 'error' = 'success') => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
   };
 
-  const updatePaintedDrawing = async () => {
-    const canvas = canvasRef.current;
-    if (!canvas || !drawing || !user) return;
-    console.log('drawing',drawing);
-    
-    const originalDrawing = drawings.find(x => x.id === (drawing as PaintedDrawing).drawingId);
-    // ממיר את הציור ל-Blob
-    console.log("originalDrawing",originalDrawing);
-    
-    canvas.toBlob(async (blob) => {
-      if (!blob) return;
-
-     console.log(drawing,drawing);
-
-
-      try {
-        const fileName = `${drawing.name || 'painted_drawing.png'}`;
-        const title = (originalDrawing as Drawing).title || 'Painted Drawing';
-        const description = (originalDrawing as Drawing).description || 'A painted drawing';
-        const category = (originalDrawing as Drawing).category || 'Uncategorized';
-
-
-        console.log("fileName",fileName);
-        
-        // שלב 1: קבלת Presigned URL מהשרת
-        const response = await axios.get('https://localhost:7004/api/upload/presigned-url', {
-          params: {
-            fileName: fileName,
-            title: title,
-            description: description,
-            category: category
-          }
-        });
-
-        const presignedUrl = response.data.url;
-        console.log("presignedUrl ", presignedUrl);
-
-        // שלב 2: העלאת הקובץ המעודכן ל-S3
-        await axios.put(presignedUrl, blob, {
-          headers: {
-            'Content-Type': 'image/png',
-          }
-        });
-
-        // שלב 3: קבלת URL להורדה לאחר ההעלאה
-        const downloadResponse = await axios.get(`https://localhost:7004/api/upload/download-url/${fileName}`);
-        const downloadUrl = downloadResponse.data;
-        alert(downloadUrl);
-
-        // שלב 4: שליחת עדכון לשרת
-        const updatedPaintedDrawing = {
-          drawingId: (drawing as PaintedDrawing).drawingId,
-          userId: user.id,
-          imageUrl: downloadUrl as string,
-          name:fileName
-        };
-
-        await axios.put(`https://localhost:7004/api/PaintedDrawing/${drawing.id}`, updatedPaintedDrawing);
-        alert('הציור הצבוע עודכן בהצלחה!');
-
-      } catch (error) {
-        console.error('Error updating painted drawing:', error);
-        alert('שגיאה בעדכון הציור הצבוע');
-      }
-    }, 'image/png');
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
   };
 
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
-
     setIsDrawing(true);
     draw(e);
   };
@@ -210,7 +151,7 @@ console.log("blob",blob);
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    ctx.strokeStyle = isEraseMode ? '#ffffff' : color;
+    ctx.strokeStyle = isEraseMode ? '#f0f3f7' : color;
     ctx.lineWidth = brushSize;
     ctx.lineCap = 'round';
     ctx.lineTo(x, y);
@@ -234,10 +175,6 @@ console.log("blob",blob);
     }
   };
 
-  // const toggleEraseMode = () => {
-  //   setIsEraseMode(!isEraseMode);
-  // };
-
   const printCanvas = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -258,75 +195,219 @@ console.log("blob",blob);
     link.click();
   };
 
+  const handleUpload = async () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    canvas.toBlob(async (blob) => {
+      if (!blob) return;
+
+      try {
+        const fileName = `${Date.now() || 'painted_drawing'}.png`;
+        const title = (drawing as Drawing).title || 'Painted Drawing';
+        const description = (drawing as Drawing).description || 'A painted drawing';
+        const category = (drawing as Drawing).category || 'Uncategorized';
+
+        // Get Presigned URL
+        const response = await api.get('/upload/presigned-url', {
+          params: {
+            fileName: fileName,
+            title: title,
+            description: description,
+            category: category
+          }
+        });
+
+        const presignedUrl = response.data.url;
+
+        // Upload to S3
+        await axios.put(presignedUrl, blob, {
+          headers: {
+            'Content-Type': 'image/png',
+          }
+        });
+
+        // Get download URL
+        const downloadResponse = await api.get(`/upload/download-url/${fileName}`);
+        const downloadUrl = downloadResponse.data;
+
+        // Update Redux
+        const newDrawing = {
+          drawingId: drawing?.id || 0,
+          userId: user?.id || 0,
+          imageUrl: downloadUrl as string,
+          name: fileName
+        };
+
+        dispatch(addPaintedDrawing(newDrawing));
+        showSnackbar('הציור הצבוע הועלה בהצלחה!');
+      } catch (error) {
+        console.error('Error uploading painted drawing:', error);
+        showSnackbar('שגיאה בהעלאת הציור הצבוע', 'error');
+      }
+    }, 'image/png');
+  };
+
+  const updatePaintedDrawing = async () => {
+    const canvas = canvasRef.current;
+    if (!canvas || !drawing || !user) return;
+    console.log('drawings',drawings);
+     const originalDrawing = drawings.find(x => x.id === (drawing as PaintedDrawing).drawingId);
+    console.log("originalDrawing",originalDrawing);
+    
+    canvas.toBlob(async (blob) => {
+      if (!blob) return;
+
+      try {
+        const fileName = `${drawing.name || 'painted_drawing.png'}`;
+        const title = (originalDrawing as Drawing).title || 'Painted Drawing';
+        const description = (originalDrawing as Drawing).description || 'A painted drawing';
+        const category = (originalDrawing as Drawing).category || 'Uncategorized';
+
+        
+        // Get Presigned URL
+        const response = await api.get('/upload/presigned-url', {
+          params: {
+            fileName: fileName,
+            title: title,
+            description: description,
+            category: category
+          }
+        });
+
+        const presignedUrl = response.data.url;
+
+        // Upload to S3
+        await axios.put(presignedUrl, blob, {
+          headers: {
+            'Content-Type': 'image/png',
+          }
+        });
+
+        // Get download URL
+        const downloadResponse = await api.get(`/upload/download-url/${fileName}`);
+        const downloadUrl = downloadResponse.data;
+
+        // Update Painted Drawing
+        const updatedPaintedDrawing = {
+          drawingId: (drawing as PaintedDrawing).drawingId,
+          userId: user.id,
+          imageUrl: downloadUrl as string,
+          name: fileName
+        };
+
+        await api.put(`/PaintedDrawing/${drawing.id}`, updatedPaintedDrawing);
+        showSnackbar('הציור הצבוע עודכן בהצלחה!');
+      } catch (error) {
+        console.error('Error updating painted drawing:', error);
+        showSnackbar('שגיאה בעדכון הציור הצבוע', 'error');
+      }
+    }, 'image/png');
+  };
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', padding: '16px' }}>
-      {/* Edit Colors Section with Icon */}
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 2,
+        p: 2,
+        backgroundColor: '#f0f3f7',
+        borderRadius: 2
+      }}
+    >
+      {/* Tools Section */}
       <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        gap="8px"
-        style={{ backgroundColor: '#f5f5f5', padding: '10px', borderRadius: '8px', width: '200px' }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 2,
+          backgroundColor: 'white',
+          p: 2,
+          borderRadius: 2,
+          boxShadow: 1
+        }}
       >
-        <Typography variant="body2" color="textPrimary" style={{ display: 'flex', alignItems: 'center' }}>
-          <Palette style={{ marginRight: '8px' }} /> ערוך צבעים
-        </Typography>
-        <Grid container spacing={1} justifyContent="center">
-          <Grid item>
-            <Button
-              style={{
-                backgroundColor: color,
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
-              }}
-              onClick={() => setColor(color)}
-            />
-          </Grid>
-          <Grid item>
+        {/* Color Picker */}
+        <Tooltip title="בחר צבע">
+          <IconButton>
+            <Palette />
             <input
               type="color"
               value={color}
               onChange={(e) => setColor(e.target.value)}
-              style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+              style={{
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                opacity: 0,
+                cursor: 'pointer'
+              }}
             />
-          </Grid>
-        </Grid>
+          </IconButton>
+        </Tooltip>
+
+        {/* Brush Mode */}
+        <Tooltip title="מצב צביעה">
+          <IconButton
+            color={!isEraseMode ? 'primary' : 'default'}
+            onClick={() => setIsEraseMode(false)}
+          >
+            <Brush />
+          </IconButton>
+        </Tooltip>
+
+        {/* Eraser Mode */}
+        <Tooltip title="מחק">
+          <IconButton
+            color={isEraseMode ? 'primary' : 'default'}
+            onClick={() => setIsEraseMode(true)}
+          >
+            <Delete />
+          </IconButton>
+        </Tooltip>
+
+        {/* Brush Size */}
+        <Box sx={{ width: 150 }}>
+          <Slider
+            value={brushSize}
+            min={1}
+            max={50}
+            onChange={(_e, newValue) => setBrushSize(newValue as number)}
+          />
+          <Typography variant="caption">גודל מכחול: {brushSize}</Typography>
+        </Box>
       </Box>
 
-      {/* Colors Picker */}
-      <Grid container spacing={1} justifyContent="center">
-        {[
-          '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#000000', '#FFFFFF',
-          '#FFA500', '#800080', '#008000', '#FFD700', '#A52A2A', '#D2691E', '#C71585', '#B0C4DE'
-        ].map((colorOption) => (
-          <Grid item key={colorOption}>
-            <Button
-              style={{
-                backgroundColor: colorOption,
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
-              }}
+      {/* Color Palette */}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+          gap: 1,
+          backgroundColor: 'white',
+          p: 2,
+          borderRadius: 2,
+          boxShadow: 1
+        }}
+      >
+        {colorPalette.map((colorOption) => (
+          <Tooltip key={colorOption} title={`בחר צבע ${colorOption}`}>
+            <IconButton
               onClick={() => setColor(colorOption)}
+              sx={{
+                backgroundColor: colorOption,
+                width: 40,
+                height: 40,
+                '&:hover': { opacity: 0.8 }
+              }}
             />
-          </Grid>
+          </Tooltip>
         ))}
-      </Grid>
-
-      {/* Brush Size Slider */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <Slider
-          value={brushSize}
-          min={1}
-          max={50}
-          onChange={(_e, newValue) => setBrushSize(newValue as number)}
-          style={{ width: '200px' }}
-        />
-        <span>Brush size: {brushSize}</span>
-      </div>
+      </Box>
 
       {/* Canvas */}
       <canvas
@@ -334,71 +415,107 @@ console.log("blob",blob);
         width={800}
         height={600}
         style={{
-          border: '1px solid #000',
+          border: '2px solid #2c3e50',
           borderRadius: '8px',
           cursor: isEraseMode ? 'url(/eraser-cursor.png), auto' : 'crosshair',
-          backgroundColor: '#f0f0f0',
-          maxWidth: '100%', // מונע מתיחה מעבר לרוחב ההורה
-          height: 'auto'   // שומר על היחס המקורי של הרוחב-גובה
+          backgroundColor: '#ecf0f1',
+          maxWidth: '100%',
+          height: 'auto'
         }}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
-      ></canvas>
+      />
 
-      {/* Clear Button */}
-      <Button variant="contained" color="error" onClick={clearCanvas}>
-        Clear
-      </Button>
+      {/* Action Buttons */}
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 2,
+          backgroundColor: 'white',
+          p: 2,
+          borderRadius: 2,
+          boxShadow: 1
+        }}
+      >
+        <Tooltip title="הדפס">
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<Print />}
+            onClick={printCanvas}
+          >
+            הדפס
+          </Button>
+        </Tooltip>
 
-      {/* Print and Download Buttons in a row */}
-      <div style={{ display: 'flex', gap: '8px' }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={printCanvas}
-          startIcon={<Print />}
-        >
-          Print
-        </Button>
+        <Tooltip title="הורד">
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<Download />}
+            onClick={downloadCanvas}
+          >
+            הורד
+          </Button>
+        </Tooltip>
 
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            if (!isPainted) { downloadCanvas() }
-            else {
+        <Tooltip title="נקה">
+          <Button
+            variant="contained"
+            color="error"
+            startIcon={<Clear />}
+            onClick={clearCanvas}
+          >
+            נקה
+          </Button>
+        </Tooltip>
 
-            }
+        <Tooltip title="שמור באזור האישי">
+          <Button
+            variant="contained"
+            color="success"
+            startIcon={<Save />}
+            onClick={() => {
+              if (isPainted) {
+                updatePaintedDrawing();
+              } else {
+                handleUpload();
+              }
+            }}
+          >
+            שמור באזור האישי
+          </Button>
+        </Tooltip>
+      </Box>
 
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        sx={{
+          '& .MuiSnackbar-root': {
+            top: '50%',
+            transform: 'translateY(-50%)',
+          }
+        }}
+      >
+        <Alert 
+          onClose={handleCloseSnackbar} 
+          severity={snackbarSeverity} 
+          sx={{ 
+            width: '400px', 
+            fontSize: '1.2rem', 
+            justifyContent: 'center', 
+            textAlign: 'center' 
           }}
-          startIcon={<Print />}
         >
-          Download
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            if (isPainted) {
-              updatePaintedDrawing();
-            }
-            else {
-              uploadPaintedDrawing();
-            }
-          }
-          }
-          style={{ marginTop: "8px" }}
-        >
-          שמירה באזור האישי    
-      </Button>
-      </div>
-    </div>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+    </Box>
   );
 };
 
 export default PaintCanvas;
-
-
-
-

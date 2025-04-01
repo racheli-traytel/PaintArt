@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
 [Route("api/upload")]
@@ -58,6 +59,8 @@ public class UploadController : ControllerBase
 
         return _s3Client.GetPreSignedURL(request);
     }
+
+
 }
 
 

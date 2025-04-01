@@ -97,5 +97,17 @@ namespace PlayArt.Service
         {
             return _repository.GetTopRatedDrawings(count);
         }
+
+        public async Task<List<DrawingDTO>> GetTopRatedDrawingsByUserAsync(int userId, int count = 10)
+        {
+            var drawings = await _repository.GetTopRatedDrawingsByUserAsync(userId, count);
+            return _mapper.Map<List<DrawingDTO>>(drawings);
+        }
+
+        public IEnumerable<DrawingDTO> GetDrawingsByUserId(int userId)
+        {
+            var drawings = _repository.GetDrawingsByUserId(userId);
+            return _mapper.Map<IEnumerable<DrawingDTO>>(drawings);
+        }
     }
 }

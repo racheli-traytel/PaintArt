@@ -98,7 +98,7 @@ const FeatureCards: React.FC = () => {
     <Box sx={{ py: 8, backgroundColor: '#f5f7fa' }}>
       <Container maxWidth="lg">
       <Typography variant="h1" sx={{ textAlign: 'center', fontWeight: 'bold', mb: 5 }}>
-          מה אפשר לעשות ב-PlayArt?
+          מה אפשר לעשות ב-PaintArt?
         </Typography>
         <Grid container spacing={4}>
           {/* Rating Pictures Card */}

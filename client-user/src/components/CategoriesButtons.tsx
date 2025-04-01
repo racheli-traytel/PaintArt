@@ -64,12 +64,19 @@ const CategoriesButtons: React.FC<{ setSelectedCategory: React.Dispatch<React.Se
 
   return (
     <Box sx={{ my: 3, textAlign: 'right', px: 2 }}>
-      <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold', color: '#333', direction: 'rtl' }}>
+      <Typography variant="h6" sx={{ 
+        mb: 2, 
+        fontWeight: 'bold', 
+        color: '#333', 
+        direction: 'rtl',
+        textAlign: 'right' 
+      }}>
         קטגוריות פופולריות:
       </Typography>
       <Box
         sx={{
           overflowX: 'auto',
+          direction: 'rtl', // הוסף זאת
           '&::-webkit-scrollbar': {
             height: '6px',
           },
@@ -87,11 +94,10 @@ const CategoriesButtons: React.FC<{ setSelectedCategory: React.Dispatch<React.Se
         }}
       >
         <Stack 
-          direction="row" 
+          direction="row-reverse"  // שנה ל-row-reverse
           spacing={1}
           sx={{ 
             py: 1,
-            direction: 'rtl',
             flexWrap: 'nowrap',
             minWidth: 'max-content',
             pl: 2,
@@ -126,6 +132,7 @@ const CategoriesButtons: React.FC<{ setSelectedCategory: React.Dispatch<React.Se
       </Box>
     </Box>
   );
+
 };
 
 export default CategoriesButtons;

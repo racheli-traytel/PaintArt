@@ -116,5 +116,21 @@ namespace PlayArt.Data.Repository
                 .Take(count)
                 .ToList();
         }
+
+        public async Task<List<Drawing>> GetTopRatedDrawingsByUserAsync(int userId, int count = 10)
+        {
+            return await _context.Drawings
+                .Where(d => d.UserId == userId)
+                .OrderByDescending(d => d.AvgRating)
+                .Take(count)
+                .ToListAsync();
+        }
+
+        public List<Drawing> GetDrawingsByUserId(int userId)
+        {
+            return _context.Drawings.Include(d => d.User)
+                                    .Where(d => d.UserId == userId)
+                                    .ToList();
+        }
     }
 }

@@ -79,6 +79,9 @@ namespace PlayArt.Data.Migrations
                     b.Property<int>("DrawingId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");

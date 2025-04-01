@@ -6,6 +6,7 @@ using AutoMapper;
 using PlayArt.Api.Models;
 using PlayArt.Core.DTOs;
 using PlayArt.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PlayArt.Controllers
 {
@@ -23,12 +24,14 @@ namespace PlayArt.Controllers
         }
 
         [HttpGet]
+        //[Authorize]
         public ActionResult Get()
         {
             return Ok(_paintedDrawingService.GetList());
         }
 
         [HttpGet("{id}")]
+        //[Authorize]
         public ActionResult<PaintedDrawing> GetId(int id)
         {
             if (id < 0) return BadRequest();
@@ -37,6 +40,7 @@ namespace PlayArt.Controllers
             return Ok(result);
         }
         [HttpGet("user/{userId}")]
+        //[Authorize]
         public ActionResult<IEnumerable<PaintedDrawingDTO>> GetPaintedDrawingsByUserId(int userId)
         {
             // אם ה-userId לא תקין (קטן מ-0), מחזיר BadRequest
@@ -51,8 +55,25 @@ namespace PlayArt.Controllers
 
             return Ok(result); // אם יש ציורים צבועים, מחזיר את הרשימה
         }
+        [HttpGet("deleted/user/{userId}")]
+        //[Authorize]
+        public ActionResult<IEnumerable<PaintedDrawingDTO>> GetDeletedPaintedDrawingsByUserId(int userId)
+        {
+            // אם ה-userId לא תקין (קטן מ-0), מחזיר BadRequest
+            if (userId < 0)
+                return BadRequest("Invalid user ID.");
+
+            var result = _paintedDrawingService.GetDeletdPaintedDrawingsByUserId(userId);
+
+            // אם לא נמצאו ציורים צבועים, מחזיר מערך ריק
+            if (result == null || !result.Any())
+                return Ok(new List<PaintedDrawingDTO>());
+
+            return Ok(result); // אם יש ציורים צבועים, מחזיר את הרשימה
+        }
 
         [HttpPost]
+        //[Authorize]
         public async Task<ActionResult> Post([FromBody] PaintedDrawingPostModel drawing)
         {
             if (drawing == null) return BadRequest();
@@ -63,7 +84,10 @@ namespace PlayArt.Controllers
             return Ok(result);
         }
 
+        
+
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult> Put(int id, [FromBody] PaintedDrawingPostModel drawing)
         {
             if (id < 0 || drawing == null) return BadRequest();
@@ -72,7 +96,28 @@ namespace PlayArt.Controllers
             return Ok(success.Id);
         }
 
+        [HttpPut("Recover/{id}")]
+        //[Authorize]
+        public async Task<ActionResult> Recover(int id)
+        {
+            if (id < 0) return BadRequest();
+            bool success = await _paintedDrawingService.RecoverAsync(id);
+            if (!success) return NotFound();
+            return Ok(success);
+        }
+
+        [HttpDelete("soft/{id}")]
+        //[Authorize]
+        public async Task<ActionResult> SoftDelete(int id)
+        {
+            if (id < 0) return BadRequest();
+            bool success = await _paintedDrawingService.SoftDeletAsync(id);
+            if (!success) return NotFound();
+            return Ok(success);
+        }
+
         [HttpDelete("{id}")]
+        //[Authorize]
         public async Task<ActionResult> Delete(int id)
         {
             if (id < 0) return BadRequest();

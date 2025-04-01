@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import CategoriesButtons from './CategoriesButtons';
-import DrawingsDisplay from './DrawingByCategory';
 import SearchDrawings from './SearchDrawing';
 import { Box, Container, Typography } from '@mui/material';
 import FeatureCards from './FeatureCards';
+import DrawingList from './DrawingList';
 
 const SearchAndCategory: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
@@ -65,7 +65,7 @@ const SearchAndCategory: React.FC = () => {
           <CategoriesButtons setSelectedCategory={setSelectedCategory} />
         </Box>
       </Container>
-      <DrawingsDisplay selectedCategory={selectedCategory} searchTerm={searchTerm} />
+      <DrawingList selectedCategory={selectedCategory} searchTerm={searchTerm} />
       <FeatureCards/> 
     </>
   );

@@ -21,7 +21,11 @@ namespace PlayArt.Data.Repositories
 
         public List<PaintedDrawing> GetAllData()
         {
-            return _context.PaintedDrawings.Include(p => p.User).Include(p => p.Drawing).ToList();
+            return _context.PaintedDrawings
+                .Include(p => p.User)
+                .Include(p => p.Drawing)
+                .Where(p => !p.IsDeleted)
+                .ToList();
         }
 
         public async Task<PaintedDrawing> AddAsync(PaintedDrawing paintedDrawing)
@@ -93,7 +97,16 @@ namespace PlayArt.Data.Repositories
             return _context.PaintedDrawings
                            .Include(p => p.User)
                            .Include(p => p.Drawing)
-                           .Where(p => p.UserId == userId)  // חיפוש לפי UserId
+                           .Where(p => p.UserId == userId && !p.IsDeleted)  // סינון לפי UserId ו-IsDeleted
+                           .ToList();
+        }
+
+        public List<PaintedDrawing> GetDeltedPaintedDrawingsByUserId(int userId)
+        {
+            return _context.PaintedDrawings
+                           .Include(p => p.User)
+                           .Include(p => p.Drawing)
+                           .Where(p => p.UserId == userId && p.IsDeleted)  // סינון לפי UserId ו-IsDeleted
                            .ToList();
         }
 

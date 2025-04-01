@@ -14,5 +14,8 @@ namespace PlayArt.Core.Interfaces.Services_interfaces
         Task<PaintedDrawingDTO> UpdateAsync(int id, PaintedDrawingDTO paintedDrawing); // אסינכרוני
         Task<bool> RemoveAsync(int id); // אסינכרוני
         IEnumerable<PaintedDrawingDTO> GetPaintedDrawingsByUserId(int userId);
+        IEnumerable<PaintedDrawingDTO> GetDeletdPaintedDrawingsByUserId(int userId);
+        Task<bool> SoftDeletAsync(int id);
+        Task<bool> RecoverAsync(int id);
     }
 }

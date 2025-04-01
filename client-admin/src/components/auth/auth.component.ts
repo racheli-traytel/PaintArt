@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -22,16 +23,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   styleUrl: './auth.component.css'
 })
 export class AuthComponent {
-  constructor(private dialog: MatDialog) {}
+  constructor(private router :Router) {}
 
-  openLoginDialog() {
-    this.dialog.open(LoginComponent, {
-      width: '400px', // ניתן להגדיר גודל
-    });
+
+  openLogin() {
+   this.router.navigate(['/login']);
   }
-  // openRegisterDialog() {
-  //   this.dialog.open(RegisterComponent, {
-  //     width: '400px', // ניתן להגדיר גודל
-  //   });
-  // }
 }

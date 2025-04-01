@@ -3,7 +3,7 @@ import { Avatar, Stack, Typography } from "@mui/material";
 import { orange } from "@mui/material/colors";
 
 const UserAvatar: React.FC = () => {
-  const user = JSON.parse(localStorage.getItem("user") || "null");
+  const user = JSON.parse(sessionStorage.getItem("user") || "null");
 
   return (
     <Stack direction="row" spacing={1} alignItems="center">

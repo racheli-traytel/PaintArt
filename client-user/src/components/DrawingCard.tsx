@@ -3,18 +3,21 @@ import { ColorLens, Download, Star } from "@mui/icons-material";
 import Drawing from "../types/drawing";
 import RatingStars from "./RatingStars";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootStore } from "./redux/Store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootStore } from "./redux/Store";
 import { useNavigate } from "react-router-dom";
 import ErrorModal from "./ErrorModal";
 import RatingModal from "./RatingModal";
+import axios from "axios";
+import { fetchTopRatedDrawings } from "./redux/DrawingSlice";
 
-const DisplayDrawing = ({ drawing }: { drawing: Drawing }) => {
+const DrawingCard = ({ drawing }: { drawing: Drawing }) => {
     const { user } = useSelector((state: RootStore) => state.auth);
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [_currentDrawingId, setCurrentDrawingId] = useState<number | null>(null);
-  
+    const dispatch = useDispatch<AppDispatch>();
+
     // מצב עבור מודל הדירוג
     const [isRatingModalOpen, setIsRatingModalOpen] = useState<boolean>(false);
     const [ratingDrawingId, setRatingDrawingId] = useState<number | null>(null);
@@ -41,14 +44,14 @@ const DisplayDrawing = ({ drawing }: { drawing: Drawing }) => {
 
   // פונקציה לסגירת מודל הדירוג
   const handleCloseRatingModal = () => {
+  dispatch(fetchTopRatedDrawings(10)); // Call Redux function
     setIsRatingModalOpen(false);
   };
 
-
-
-
   const handleDownloadClick = async () => {
-   let fileUrl=drawing.imageUrl, fileName=drawing.name
+   let fileName=drawing.name
+   const downloadResponse = await axios.get(`https://localhost:7004/api/upload/download-url/${fileName}`);
+   const fileUrl = downloadResponse.data;
 
    console.log("fileUrl",fileUrl);
    console.log("fileName",fileName);
@@ -236,4 +239,4 @@ const DisplayDrawing = ({ drawing }: { drawing: Drawing }) => {
   );
 };
 
-export default DisplayDrawing;
+export default DrawingCard;

@@ -13,5 +13,7 @@ namespace PlayArt.Core.Interfaces.IRepositories
         List<Drawing> GetDrawingCategory(DrawingCategory? category = null);
         List<Drawing> SearchDrawings(string searchTerm);
         List<Drawing> GetTopRatedDrawings(int count = 10);
+        Task<List<Drawing>> GetTopRatedDrawingsByUserAsync(int userId, int count = 10);
+        List<Drawing> GetDrawingsByUserId(int userId);
     }
 }

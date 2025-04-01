@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { fetchTopRatedDrawings } from './redux/DrawingSlice';
-import DisplayDrawing from './DisplayDrawing';
+import DrawingCard from './DrawingCard';
 
 const TopRatedDrawings = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -113,7 +113,7 @@ const TopRatedDrawings = () => {
             </Grid>
           ) : (
             drawingsArray.map((drawing: any) => (
-              <DisplayDrawing drawing={drawing} key={drawing.id}></DisplayDrawing>
+              <DrawingCard drawing={drawing} key={drawing.id}></DrawingCard>
             ))
           )}
         </Grid>
