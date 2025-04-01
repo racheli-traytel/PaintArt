@@ -132,7 +132,7 @@ const ArtIconBox = styled(Box)(({ theme }) => ({
   margin: theme.spacing(3, 0),
 }));
 
-const ArtIconContainer = styled(Box)(({ theme }) => ({
+const ArtIconContainer = styled(Box)(({  }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',

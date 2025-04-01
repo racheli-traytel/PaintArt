@@ -23,7 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootStore } from './redux/Store';
 import { fetchDrawingsByUser } from './redux/DrawingSlice';
 import { fetchPaintedDrawingsByUserId } from './redux/PaintedDrawingsSlice';
-import { ActionButton, Bubble, CrayonCharacter, DashboardCard, DashboardWrapper, HistoryItem, IconWrapper, StyledAvatar, WhiteContainer } from './Designs/DashBoard';
+import { Bubble, CrayonCharacter, DashboardCard, DashboardWrapper, HistoryItem, IconWrapper, StyledAvatar, WhiteContainer } from './Designs/DashBoard';
 import { useNavigate } from 'react-router-dom';
 
 const PersonalDashboard = () => {
@@ -36,14 +36,18 @@ const PersonalDashboard = () => {
     const [date, setDate] = useState("");
 
     useEffect(() => {
-        // Format current date in Hebrew
         const today = new Date();
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        setDate(today.toLocaleDateString('he-IL', options));
+        const options: Intl.DateTimeFormatOptions = { 
+            weekday: "long", 
+            year: "numeric", 
+            month: "long", 
+            day: "numeric" 
+        };
+        setDate(today.toLocaleDateString("he-IL", options));
     }, []);
 
     const dispatch = useDispatch<AppDispatch>();
-    const { userDrawings, status, error } = useSelector((state: RootStore) => state.drawings);
+    const { userDrawings } = useSelector((state: RootStore) => state.drawings);
     const { paintedDrawings } = useSelector((state: RootStore) => state.paintedDrawings);
 
     useEffect(() => {
@@ -283,13 +287,7 @@ const PersonalDashboard = () => {
                                     borderTop: '1px dashed rgba(0,0,0,0.1)'
                                 }}
                             >
-                                {/* <ActionButton
-                                    variant="contained"
-                                    color="primary"
-                                    startIcon={<AddCircleIcon />}
-                                >
-                                    יצירת פרויקט חדש
-                                </ActionButton> */}
+                          
                             </Box>
                         </Paper>
                     </Grid>

@@ -198,22 +198,5 @@ const ErrorModal: React.FC<ErrorModalProps> = ({
   );
 };
 
-// Add Heebo font to your application - place this in your index.html or App component
-// React helpers to add the font
-// const HeeboFont = () => {
-//   React.useEffect(() => {
-//     // Add Heebo font
-//     const link = document.createElement('link');
-//     link.rel = 'stylesheet';
-//     link.href = 'https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap';
-//     document.head.appendChild(link);
-    
-//     return () => {
-//       document.head.removeChild(link);
-//     };
-//   }, []);
-  
-//   return null;
-// };
 
 export default ErrorModal

@@ -7,7 +7,23 @@ import {
     Paper,
 } from '@mui/material';
 
-export const DashboardWrapper = styled(Box)(({ }) => ({
+interface BubbleProps {
+    size?: number;
+    x?: number;
+    y?: number;
+    delay?: number;
+}
+
+interface DashboardCardProps {
+    bgColor?: string;
+}
+
+// interface IconWrapperProps {
+//     theme: any;
+//     color?: string;
+// }
+
+export const DashboardWrapper = styled(Box)({
     minHeight: '100vh',
     display: 'flex',
     alignItems: 'center',
@@ -23,9 +39,9 @@ export const DashboardWrapper = styled(Box)(({ }) => ({
         '50%': { backgroundPosition: '100% 50%' },
         '100%': { backgroundPosition: '0% 50%' }
     }
-}));
+});
 
-export const Bubble = styled(Box)(({ size = 50, x = 0, y = 0, delay = 0 }) => ({
+export const Bubble = styled(Box)<BubbleProps>(({ size = 50, x = 0, y = 0, delay = 0 }) => ({
     position: 'absolute',
     width: `${size}px`,
     height: `${size}px`,
@@ -54,14 +70,14 @@ export const WhiteContainer = styled(Paper)(({ theme }) => ({
     overflow: 'hidden',
 }));
 
-export const StyledAvatar = styled(Avatar)(({ theme }) => ({
+export const StyledAvatar = styled(Avatar)({
     width: 80,
     height: 80,
     boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
     border: '3px solid white',
-}));
+});
 
-export const DashboardCard = styled(Card)(({ theme, bgColor }) => ({
+export const DashboardCard = styled(Card)<DashboardCardProps>(({ theme, bgColor }) => ({
     borderRadius: 16,
     boxShadow: '0 8px 16px rgba(0,0,0,0.1)',
     height: '100%',
@@ -92,7 +108,7 @@ export const DashboardCard = styled(Card)(({ theme, bgColor }) => ({
     }
 }));
 
-export const IconWrapper = styled(Box)(({ theme, color }:{theme:any, color:any}) => ({
+export const IconWrapper = styled(Box)<{ color?: string }>(({ theme= {} as any, color }) => ({
     backgroundColor: color || theme.palette.primary.main,
     color: 'white',
     borderRadius: '50%',
@@ -102,10 +118,10 @@ export const IconWrapper = styled(Box)(({ theme, color }:{theme:any, color:any})
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: theme.spacing(1),
-    boxShadow: `0 4px 8px ${color}80 || rgba(0,0,0,0.1)`,
+    boxShadow: `0 4px 8px ${color ? color + '80' : 'rgba(0,0,0,0.1)'}`,
 }));
 
-export const ActionButton = styled(Button)(({  }) => ({
+export const ActionButton = styled(Button)({
     borderRadius: 12,
     padding: '10px 16px',
     textTransform: 'none',
@@ -116,7 +132,7 @@ export const ActionButton = styled(Button)(({  }) => ({
         transform: 'translateY(-3px)',
         boxShadow: '0 6px 12px rgba(0,0,0,0.15)',
     }
-}));
+});
 
 export const HistoryItem = styled(Box)(({ theme }) => ({
     padding: theme.spacing(1.5),
@@ -133,7 +149,7 @@ export const HistoryItem = styled(Box)(({ theme }) => ({
     }
 }));
 
-export const CrayonCharacter = styled(Box)(({  }) => ({
+export const CrayonCharacter = styled(Box)({
     position: 'absolute',
     bottom: '-10px',
     right: '20px',
@@ -145,4 +161,4 @@ export const CrayonCharacter = styled(Box)(({  }) => ({
     '&:hover': {
         transform: 'rotate(8deg) translateY(-10px)',
     }
-}));
+});
