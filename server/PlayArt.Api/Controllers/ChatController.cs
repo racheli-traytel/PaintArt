@@ -24,7 +24,7 @@ namespace PlayArt.Api.Controllers
                 {
                     model = "gpt-4o-mini",
                     messages = new[] {
-                new { role = "system", content = request.SystemRole ?? "אתה מומחה לציורים, עזור למשתמש תענה רק על שאלות שקשורות לציורים ואומנות" },
+                new { role = "system", content = request.SystemRole ?? "אתה מומחה לציורים, עזור למשתמש, תענה רק על שאלות שקשורות לציורים ואומנות" },
                 new { role = "user", content = request.Message }
             }
                 };
