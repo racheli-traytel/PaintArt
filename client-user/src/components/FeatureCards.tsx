@@ -108,10 +108,10 @@ const FeatureCards: React.FC = () => {
                 <StarIcon sx={{ color: '#ffc107', fontSize: 40 }} />
               </IconContainer>
               <FeatureCardContent>
-                <FeatureTitle variant="h5">
+                <FeatureTitle variant="h5" sx={{ textAlign: 'left' }}>
                   דירוג ציורים
                 </FeatureTitle>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left' }}>
                   דרגו את הציורים האהובים עליכם, שתפו עם חברים ומשפחה וגלו את הציורים הפופולריים ביותר
                 </Typography>
               </FeatureCardContent>
@@ -130,10 +130,10 @@ const FeatureCards: React.FC = () => {
                 <RobotIcon sx={{ color: '#3f51b5', fontSize: 40 }} />
               </IconContainer>
               <FeatureCardContent>
-                <FeatureTitle variant="h5">
-                  יצירת ציור ב-AI
+                <FeatureTitle variant="h5" sx={{ textAlign: 'left' }}>
+                  AI יצירת ציור ב
                 </FeatureTitle>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left' }}>
                   כתבו מה תרצו לייצר וביינה מלאכותית תייצר עבורכם ציור מותאם אישית מוכן לצביעה
                 </Typography>
               </FeatureCardContent>
@@ -152,10 +152,10 @@ const FeatureCards: React.FC = () => {
                 <PaletteIcon sx={{ color: '#e91e63', fontSize: 40 }} />
               </IconContainer>
               <FeatureCardContent>
-                <FeatureTitle variant="h5">
+                <FeatureTitle variant="h5" sx={{ textAlign: 'left' }}>
                   צביעת ציורים ושמירה
                 </FeatureTitle>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left' }}>
                   בחרו ציור, צבעו אותו באונליין עם מגוון צבעים ואפקטים, ושמרו את היצירות שלכם כאוסף אישי
                 </Typography>
               </FeatureCardContent>

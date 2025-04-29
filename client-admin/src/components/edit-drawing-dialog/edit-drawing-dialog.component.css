@@ -1,0 +1,145 @@
+/* edit-drawing-dialog.component.scss */
+.dialog-container {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+h2 {
+  color: #40e0d0;
+  margin-bottom: 24px;
+  font-weight: 300;
+}
+
+.drawing-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.preview-container {
+  width: 100%;
+  height: 250px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  background-color: #282828;
+  border: 2px dashed #444;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  &.has-image {
+    border: none;
+  }
+}
+
+.image-preview {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Changed from 'cover' to 'contain' */
+  width: auto; /* Allow natural width */
+  height: auto; /* Allow natural height */
+}
+
+.no-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 16px;
+  color: #9e9e9e;
+  
+  mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    color: #40e0d0;
+    opacity: 0.6;
+  }
+}
+
+.image-actions {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+  
+  .remove-image-btn {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+  }
+}
+
+.name-display {
+  margin-bottom: 16px;
+  padding: 8px 0;
+  
+  .name-label {
+    font-size: 12px;
+    color: #9e9e9e;
+    margin-bottom: 4px;
+  }
+  
+  .name-value {
+    font-size: 16px;
+    color: #e0e0e0;
+    padding: 8px 0;
+    border-bottom: 1px solid #444;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: #282828;
+}
+
+::ng-deep .mat-form-field-label {
+  color: #9e9e9e !important;
+}
+
+::ng-deep .mat-input-element {
+  color: #ffffff !important;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  color: #40e0d0 !important;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-ripple {
+  background-color: #40e0d0 !important;
+}
+
+::ng-deep .mat-dialog-container {
+  background-color: #1e1e1e !important;
+  border-radius: 12px;
+  border: 1px solid #333333;
+}
+
+mat-dialog-actions {
+  padding-top: 16px;
+  border-top: 1px solid #333333;
+}
+
+::ng-deep .mat-button {
+  color: #bdbdbd !important;
+}
+
+::ng-deep .mat-raised-button.mat-primary {
+  background-color: #40e0d0 !important;
+  color: #121212 !important;
+}
+
+/* Hide name field completely */
+.hidden-name-field {
+  display: none;
+}

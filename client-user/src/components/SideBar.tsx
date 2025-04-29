@@ -12,7 +12,8 @@ import {
   Palette, 
   FileUpload, 
   ExitToApp, 
-  Recycling 
+  Recycling, 
+  Home,
 } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -51,7 +52,7 @@ const Sidebar = () => {
     const gradients = {
       profile: 'linear-gradient(135deg, #ff6b6b, #4ecdc4)',
       drawings: 'linear-gradient(135deg, #845ec2, #ff6f91)',
-      popularDrawings: 'linear-gradient(135deg, #ff9671, #ffc75f)',
+      home: 'linear-gradient(135deg, #ff9671, #ffc75f)',
       upload: 'linear-gradient(135deg, #00d2fc, #7a54ff)',
       ratings: 'linear-gradient(135deg, #ff8066, #ffbf37)',
       recycling: 'linear-gradient(135deg, #2ecc71, #3498db)',
@@ -119,8 +120,8 @@ const Sidebar = () => {
             boxSizing: 'border-box',
             position: 'fixed',
             left: 0,
-            height: 'calc(100% - 200px)',
-            top: 80,
+            height: 'calc(100% - 300px)',
+            top: 150,
             transition: 'width 0.3s ease',
             overflowX: 'hidden',
             backgroundColor: '#f5f5f5',
@@ -138,13 +139,19 @@ const Sidebar = () => {
     flexDirection: 'column', 
     height: '100%', 
     justifyContent: 'center', 
-    marginTop: '-50px' // מרים מעט את הכפתורים כלפי מעלה
+    marginTop: '-7px' // מרים מעט את הכפתורים כלפי מעלה
   }}>
           <SidebarItem 
             icon={<AccountCircle />} 
             text="פרופיל אישי" 
             to="/profile" 
             itemKey="profile"
+          />
+           <SidebarItem 
+            icon={<Home />} 
+            text=" לעמוד הראשי" 
+            to="/personal-area" 
+            itemKey="home"
           />
           <SidebarItem 
             icon={<Palette />} 

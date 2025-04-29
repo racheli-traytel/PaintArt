@@ -447,7 +447,7 @@ const LoginPage: React.FC = () => {
               
               <Typography align="center" variant="body2" sx={{ mt: 2 }}>
                 אין לכם חשבון עדיין?{' '}
-                <Link href="#" underline="none" color="primary" fontWeight="bold">
+                <Link href="/register" underline="none" color="primary" fontWeight="bold">
                   הרשמו עכשיו
                 </Link>
               </Typography>

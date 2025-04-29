@@ -107,13 +107,12 @@ namespace PlayArt.Service
         public string Authenticate(string email, string password)
         {
             User user = _repository.GetByUserByEmail(email);
-            if (user == null) return null;
+            if (user == null) return "האימייל לא נמצא במערכת";
 
-            // בדיקת הסיסמה שהוזנה מול הסיסמה המוצפנת
             var result = _passwordHasher.VerifyHashedPassword(user, user.Password, password);
             if (result != PasswordVerificationResult.Success)
             {
-                return null;
+                return "סיסמא שגויה";
             }
 
             var userRole = _userrolerepository.GetByUserId(user.Id);

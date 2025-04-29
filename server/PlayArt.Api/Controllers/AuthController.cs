@@ -41,7 +41,7 @@ public class AuthController : ControllerBase
             var token = _authService.GenerateJwtToken(user.Id, model.Email, new[] { "User" });
             return Ok(new { Token = token,User=user});
         }
-        return Unauthorized("user doesnt exsist");
+        return Unauthorized(role);
     }
 
 
@@ -50,7 +50,7 @@ public class AuthController : ControllerBase
     {
         if (model == null)
         {
-            return Conflict("User is not valid");
+            return Conflict("משתמש לא תקין");
         }
 
         var modelD = _mapper.Map<UserDTO>(model);
@@ -59,11 +59,11 @@ public class AuthController : ControllerBase
         var existingUser = await _iuserservice.AddUserAsync(modelD, model.Password);
 
         if (existingUser == null)
-            return BadRequest("User already exists");
+            return BadRequest("המשתמש כבר קיים במערכת");
 
         var userRole = await _UserRoleService.AddAsync(model.RoleName, existingUser.Id);
         if (userRole == null)
-            return BadRequest("User role is invalid");
+            return BadRequest("תפקיד לא תקין");
 
         var token = _authService.GenerateJwtToken(existingUser.Id,model.Email, new[] { model.RoleName });
         return Ok(new { Token = token, User = existingUser });

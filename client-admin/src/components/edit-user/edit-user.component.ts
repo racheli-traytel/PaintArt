@@ -42,7 +42,7 @@ export class EditUserComponent {
   }
 
   onNoClick(): void {
-    this.dialogRef.close(); // סוגר את המודל
+   this.dialogRef.close();
   }
 
   onSubmit(): void {

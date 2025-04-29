@@ -1,55 +1,73 @@
-<div class="split-container">
-  <!-- Image Section -->
-  <div class="image-section">
-    <img src="/14.jpg" alt="FolioTeach Background" class="background-image">
-    <div class="overlay">
-      <div class="logo-container">
-        <mat-icon>school</mat-icon>
-        <span>FolioTeach</span>
-      </div>
-      <h2>ברוכים הבאים לפלטפורמת FolioTeach</h2>
-      <p>המקום המושלם למורים להתחבר ולנהל את התיק המקצועי שלהם</p>
-    </div>
+<!-- login.component.html -->
+<div class="login-container">
+  <div class="animated-background">
+    <div class="light-circle circle-1"></div>
+    <div class="light-circle circle-2"></div>
+    <div class="light-circle circle-3"></div>
+    <div class="glow-line line-1"></div>
+    <div class="glow-line line-2"></div>
   </div>
-
-  <!-- Login Section -->
-  <div class="login-section">
-    <div class="login-card-container">
-      <mat-card class="login-card">
-        <div class="login-header">
-          <h1>התחברות</h1>
-          <p>הקלד את המייל שלך והסיסמא כדי להתחבר</p>
-        </div>
-
-        <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()" class="login-form">
-          <mat-form-field appearance="fill"> 
-            <input matInput formControlName="email" placeholder="הזן את כתובת המייל שלך" type="email" required>
-            @if (addUserForm.get('userGroup.email')?.hasError('required')) {
-              <mat-error>אימייל נדרש</mat-error>
-            }
-            @if (addUserForm.get('userGroup.email')?.hasError('email')) {
-              <mat-error>נא להזין מייל תקין</mat-error>
-            }
-          </mat-form-field>
-          
-          <mat-form-field appearance="fill"> 
-            <input matInput formControlName="password" placeholder="הזן את הסיסמה שלך" [type]="hide ? 'password' : 'text'" required>
-            @if (addUserForm.get('userGroup.password')?.hasError('required')) {
-              <mat-error>סיסמה נדרשת</mat-error>
-            }
-          </mat-form-field>
-
-          <div class="form-options">
-            <mat-checkbox formControlName="rememberMe" color="primary">זכור אותי</mat-checkbox>
-            <a href="#" class="forgot-password">שכחת סיסמא?</a>
-          </div>
-
-          <button mat-flat-button color="primary" type="submit" class="login-button" [disabled]="!addUserForm.valid">
-            התחברות
-            <mat-icon>login</mat-icon>
-          </button>
-        </form>
-      </mat-card>
+  
+  <div class="login-card">
+    <div class="app-logo">
+      <h1>Art<span>Manager</span></h1>
     </div>
+    
+    <div class="login-header">
+      <h2>התחברות למערכת</h2>
+      <p>הזינו את פרטי הכניסה שלכם כדי לנהל את אוסף היצירות</p>
+    </div>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-field">
+        <label for="email">דואר אלקטרוני</label>
+        <div class="input-container">
+          <input 
+            id="email" 
+            type="email" 
+            formControlName="email" 
+            placeholder="your@email.com"
+            autocomplete="email">
+          <mat-icon>email</mat-icon>
+        </div>
+        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error-message">
+          <span *ngIf="loginForm.get('email')?.hasError('required')">דואר אלקטרוני נדרש</span>
+          <span *ngIf="loginForm.get('email')?.hasError('email')">נא להזין כתובת דואר אלקטרוני תקינה</span>
+        </div>
+      </div>
+      
+      <div class="form-field">
+        <label for="password">סיסמה</label>
+        <div class="input-container">
+          <input 
+            id="password" 
+            [type]="hidePassword ? 'password' : 'text'" 
+            formControlName="password" 
+            placeholder="הזינו את הסיסמה שלכם"
+            autocomplete="current-password">
+          <mat-icon (click)="hidePassword = !hidePassword">
+            {{hidePassword ? 'visibility' : 'visibility_off'}}
+          </mat-icon>
+        </div>
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
+          <span>סיסמה נדרשת</span>
+        </div>
+      </div>
+      
+      <div class="form-options">
+        <mat-checkbox formControlName="rememberMe" color="primary">זכור אותי</mat-checkbox>
+        <a class="forgot-password" (click)="forgotPassword()">שכחתי סיסמה</a>
+      </div>
+      
+      <div *ngIf="showError" class="error-alert">
+        <mat-icon>error</mat-icon>
+        <span>{{errorMessage}}</span>
+      </div>
+      
+      <button type="submit" class="login-button" [disabled]="loginForm.invalid">
+        <span>התחברות</span>
+        <mat-icon>login</mat-icon>
+      </button>
+    </form>
   </div>
 </div>

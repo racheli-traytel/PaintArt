@@ -1,0 +1,148 @@
+/* סגנון כללי לדיאלוג */
+.add-user-dialog {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+  }
+  
+  /* כותרת הדיאלוג */
+  .add-user-dialog h2 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 24px;
+    margin: 0;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #e0e0e0;
+    border-radius: 8px 8px 0 0;
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .add-user-dialog h2 mat-icon {
+    color: #3f51b5;
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+  }
+  
+  /* תוכן הדיאלוג */
+  .add-user-dialog mat-dialog-content {
+    padding: 24px;
+    max-height: none;
+  }
+  
+  /* עיצוב הטופס */
+  .add-user-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  /* שדות מלאים */
+  .full-width {
+    width: 100%;
+  }
+  
+  /* עיצוב שדות קלט */
+  mat-form-field {
+    margin-bottom: 8px;
+  }
+  
+  mat-form-field.mat-form-field-appearance-outline .mat-form-field-wrapper {
+    margin-bottom: 0;
+  }
+  
+  /* כפתורי פעולה */
+  mat-dialog-actions {
+    padding: 12px 24px 24px;
+    margin-bottom: 0;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    gap: 12px;
+  }
+  
+  button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 16px;
+    height: 36px;
+    border-radius: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  button mat-icon {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+  }
+  
+  /* כפתור הביטול */
+  button[mat-button] {
+    color: #666;
+  }
+  
+  /* כפתור השמירה */
+  button[mat-raised-button] {
+    background-color: #3f51b5;
+    color: white;
+    transition: background-color 0.3s;
+  }
+  
+  button[mat-raised-button]:hover:not([disabled]) {
+    background-color: #303f9f;
+  }
+  
+  button[mat-raised-button][disabled] {
+    background-color: rgba(0, 0, 0, 0.12);
+    color: rgba(0, 0, 0, 0.38);
+  }
+  
+  /* אנימציה כשטוען */
+  button[mat-raised-button] .loading-spinner {
+    margin-right: 8px;
+  }
+  
+  /* הוספת מרחב בין שדות הקלט */
+  .add-user-dialog .userGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  /* עיצוב הודעות שגיאה */
+  mat-error {
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  
+  /* צבעים של מצב פוקוס */
+  .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: #3f51b5;
+  }
+  
+  /* תמיכה במסכים קטנים */
+  @media (max-width: 600px) {
+    .add-user-dialog {
+      max-width: 100%;
+      border-radius: 0;
+    }
+    
+    mat-dialog-actions {
+      flex-direction: column-reverse;
+      align-items: stretch;
+    }
+    
+    button {
+      width: 100%;
+      justify-content: center;
+    }
+  }

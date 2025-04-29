@@ -161,18 +161,19 @@ const PaintCanvas = ({ isPainted }: { isPainted: boolean }) => {
   };
 
   const clearCanvas = () => {
-    const canvas = canvasRef.current;
-    const ctx = ctxRef.current;
-    if (canvas && ctx) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      if (imageUrl) {
-        const img = new Image();
-        img.src = imageUrl;
-        img.onload = () => {
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        };
-      }
-    }
+    // const canvas = canvasRef.current;
+    // const ctx = ctxRef.current;
+    // if (canvas && ctx) {
+    //   ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //   if (imageUrl) {
+    //     const img = new Image();
+    //     img.src = imageUrl;
+    //     img.onload = () => {
+    //       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    //     };
+    //   }
+    // }
+    window.location.reload();
   };
 
   const printCanvas = () => {

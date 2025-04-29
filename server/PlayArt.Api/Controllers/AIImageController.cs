@@ -1,32 +1,47 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using YourNamespace.Services;
 
-[ApiController]
-[Route("api/[controller]")]
-public class ImageController : ControllerBase
+namespace YourNamespace.Controllers
 {
-    private readonly OpenAIService _openAIService;
-
-    public ImageController()
+    [ApiController]
+    [Route("api/[controller]")]
+    public class DalleController : ControllerBase
     {
-        _openAIService = new OpenAIService();
+        private readonly DalleService _dalleService;
+
+        // הקונסטרוקטור מקבל את השירות של DalleService
+        public DalleController(DalleService dalleService)
+        {
+            _dalleService = dalleService;
+        }
+
+        // פעולה ליצירת ציור
+        [HttpPost("generate")]
+        public async Task<IActionResult> Generate([FromBody] PromptDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.Text))
+            {
+                return BadRequest(new { message = "הטקסט לא יכול להיות ריק. אנא הזיני תיאור באנגלית." });
+            }
+
+            // שליחת הבקשה ל-DalleService
+            var imageUrl = await _dalleService.GenerateImageAsync(dto.Text);
+
+            // אם יש שגיאה
+            if (imageUrl.StartsWith("שגיאה"))
+            {
+                return StatusCode(500, new { message = imageUrl });
+            }
+
+            // אם הכל עבר בהצלחה, מחזירים את כתובת התמונה
+            return Ok(new { imageUrl });
+        }
     }
 
-    [HttpPost("generate")]
-    public async Task<IActionResult> GenerateImage([FromBody] ImageRequest request)
+    // דגם עבור הנתונים שיתקבלו בבקשה (תיאור הציור)
+    public class PromptDto
     {
-        try
-        {
-            var result = await _openAIService.GenerateImageAsync(request.Prompt);
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        public string Text { get; set; }
     }
-}
-
-public class ImageRequest
-{
-    public string Prompt { get; set; }
 }

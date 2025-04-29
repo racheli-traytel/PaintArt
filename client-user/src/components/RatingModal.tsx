@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Box, Typography, Button, IconButton } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
-import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from './redux/Store';
@@ -152,7 +151,6 @@ const RatingModal: React.FC<RatingModalProps> = ({ open, onClose, drawingId, dra
                   color: 'white'
                 }}
               >
-                <CloseIcon />
               </IconButton>
               
               {/* אפקט ריפל */}

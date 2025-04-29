@@ -87,7 +87,7 @@ namespace PlayArt.Controllers
         
 
         [HttpPut("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult> Put(int id, [FromBody] PaintedDrawingPostModel drawing)
         {
             if (id < 0 || drawing == null) return BadRequest();

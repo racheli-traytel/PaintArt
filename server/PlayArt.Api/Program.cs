@@ -20,26 +20,14 @@ using DotNetEnv;
 using Amazon.Extensions.NETCore.Setup;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity;
+using Web.Net.Service;
+using YourNamespace.Services;
 
 // קריאת משתני סביבה
 Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-// הוספת שירותי AWS ל-S3
-//builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
-//builder.Services.AddSingleton<IAmazonS3>(serviceProvider =>
-//{
-//    var credentials = new Amazon.Runtime.BasicAWSCredentials(
-//        Environment.GetEnvironmentVariable("AWS_ACCESS_KEY"),
-//        Environment.GetEnvironmentVariable("AWS_SECRET_KEY")
-//    );
-
-//    var region = Amazon.RegionEndpoint.GetBySystemName(builder.Configuration["AWS:Region"]);
-//    return new AmazonS3Client(credentials, region);
-//});
-
-//////
 builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
 builder.Services.AddSingleton<IAmazonS3>(serviceProvider =>
 {
@@ -142,6 +130,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddDbContext<DataContext>();
+builder.Services.AddHttpClient<DalleService>();
 
 // הוספת ה-Repositories
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
@@ -158,6 +147,10 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IDrawingService, DrawingService>();
 builder.Services.AddScoped<IPaintedDrawingService, PaintedDrawingService>();
 builder.Services.AddScoped<IUserRoleService, UserRoleService>();
+builder.Services.AddScoped<IStatisticsService, StatisticsService>();
+//builder.Services.AddHttpClient<IGeminiService, GeminiService>();
+builder.Services.AddHttpClient<DalleService>();
+
 
 // הוספת AutoMapper
 builder.Services.AddAutoMapper(typeof(ProfileMapping), typeof(ProfileMappingPostModel));
@@ -179,14 +172,14 @@ builder.Services.AddDbContext<DataContext>(options =>
 var app = builder.Build();
 
 // Middleware להגדרת ה-API
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger(); // מפעיל את Swagger
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "PlayArt API V1");
     });
-}
+//}
 
 app.UseHttpsRedirection();
 

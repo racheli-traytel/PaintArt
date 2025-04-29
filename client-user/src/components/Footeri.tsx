@@ -160,16 +160,16 @@ const Footer: React.FC = () => {
             <FooterTitle variant="h6">ניווט מהיר</FooterTitle>
             <List disablePadding>
               <FooterListItem>
-                <FooterLink href="#">דף הבית</FooterLink>
+                <FooterLink href="/">דף הבית</FooterLink>
               </FooterListItem>
               <FooterListItem>
-                <FooterLink href="#">ציורים חדשים</FooterLink>
+                <FooterLink href="/">ציורים חדשים</FooterLink>
               </FooterListItem>
               <FooterListItem>
-                <FooterLink href="#">הפופולריים ביותר</FooterLink>
+                <FooterLink href="/popular">הפופולריים ביותר</FooterLink>
               </FooterListItem>
               <FooterListItem>
-                <FooterLink href="#">לפי קטגוריות</FooterLink>
+                <FooterLink href="/">לפי קטגוריות</FooterLink>
               </FooterListItem>
               <FooterListItem>
                 <FooterLink href="#">יצירה עם AI</FooterLink>

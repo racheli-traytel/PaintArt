@@ -1,0 +1,63 @@
+<div class="add-user-dialog">
+    <h2 mat-dialog-title>
+      <mat-icon color="primary">person_add</mat-icon>
+      <span>Add New User</span>
+    </h2>
+    
+    <mat-dialog-content>
+      <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()" class="add-user-form">
+        <div formGroupName="userGroup">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName" type="text" required>
+            <mat-icon matSuffix>person</mat-icon>
+            @if (addUserForm.get('userGroup.firstName')?.invalid && addUserForm.get('userGroup.firstName')?.touched) {
+              <mat-error>First Name is required</mat-error>
+            }
+          </mat-form-field>
+     
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName" type="text" required>
+            <mat-icon matSuffix>person</mat-icon>
+            @if (addUserForm.get('userGroup.lastName')?.invalid && addUserForm.get('userGroup.lastName')?.touched) {
+              <mat-error>Last Name is required</mat-error>
+            }
+          </mat-form-field>
+     
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" required>
+            <mat-icon matSuffix>email</mat-icon>
+            @if (addUserForm.get('userGroup.email')?.invalid && addUserForm.get('userGroup.email')?.touched) {
+              <mat-error>Please enter a valid email</mat-error>
+            }
+          </mat-form-field>
+        </div>
+     
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" type="password" required>
+          <mat-icon matSuffix>lock</mat-icon>
+          @if (addUserForm.get('password')?.invalid && addUserForm.get('password')?.touched) {
+            <mat-error>Password is required</mat-error>
+          }
+        </mat-form-field>
+      </form>
+    </mat-dialog-content>
+    
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="onCancel()">
+        <mat-icon>cancel</mat-icon> Cancel
+      </button>
+      <button 
+        mat-raised-button 
+        color="primary" 
+        [disabled]="addUserForm.invalid || loading" 
+        (click)="onSubmit()">
+        <mat-icon>save</mat-icon> 
+        <span *ngIf="!loading">Save User</span>
+        <span *ngIf="loading">Saving...</span>
+      </button>
+    </mat-dialog-actions>
+  </div>

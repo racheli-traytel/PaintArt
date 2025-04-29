@@ -1,0 +1,71 @@
+<div class="statistics-container">
+  <!-- Charts Row -->
+  <h2 class="section-title">User Analytics</h2>
+  <div class="charts-row">
+    <!-- Line Chart -->
+    <div class="chart-container">
+      <canvas baseChart #userGrowthChart
+              [data]="chartData"
+              [options]="chartOptions"
+              [type]="'line'">
+      </canvas>
+    </div>
+    
+    <!-- Bar Chart -->
+    <div class="chart-container">
+      <canvas baseChart #systemBarChart 
+              [data]="systemBarChartData" 
+              [options]="systemBarChartOptions" 
+              type="bar">
+      </canvas>
+    </div>
+  </div>
+  
+  <mat-divider></mat-divider>
+  
+  <!-- System Statistics Cards -->
+  <h2 class="section-title">System Statistics</h2>
+  <div class="cards-container">
+    <mat-card class="stat-card">
+      <h1>Total Users</h1>
+      <div class="stat-value">{{ systemStatistics.totalUsers }}</div>
+    </mat-card>
+    
+    <mat-card class="stat-card">
+      <h1>Total Drawings</h1>
+      <div class="stat-value">{{ systemStatistics.totalDrawings }}</div>
+    </mat-card>
+    
+    <mat-card class="stat-card">
+      <h1>Total Painted Drawings</h1>
+      <div class="stat-value">{{ systemStatistics.totalPaintedDrawings }}</div>
+    </mat-card>
+  </div>
+  
+  <mat-divider></mat-divider>
+  
+  <!-- User Statistics Table -->
+  <h2 class="section-title">User Statistics</h2>
+  <div class="user-statistics-table">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef>Username</th>
+        <td mat-cell *matCellDef="let element">{{element.username}}</td>
+      </ng-container>
+      
+      <ng-container matColumnDef="albumCount">
+        <th mat-header-cell *matHeaderCellDef>Drawings</th>
+        <td mat-cell *matCellDef="let element">{{element.drawingsCount}}</td>
+      </ng-container>
+      
+      <ng-container matColumnDef="fileCount">
+        <th mat-header-cell *matHeaderCellDef>Painted Drawings</th>
+        <td mat-cell *matCellDef="let element">{{element.paintedDrawingsCount}}</td>
+      </ng-container>
+      
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSize]="8" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

@@ -60,8 +60,8 @@ const SearchDrawings: React.FC<{ setSelectedCategory: React.Dispatch<React.SetSt
             ml: 1, 
             flex: 1,
             '& input': {
-              textAlign: 'right',
-              direction: 'rtl'
+              textAlign: 'left',
+              direction: 'ltr'
             }
           }}
           value={searchTerm}

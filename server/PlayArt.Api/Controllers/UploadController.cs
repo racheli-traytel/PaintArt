@@ -23,12 +23,12 @@ public class UploadController : ControllerBase
 
         string contentType = extension switch
         {
-            ".jpg" => "image/jpeg",
-            ".jpeg" => "image/jpeg",
-            ".png" => "image/png",
-            ".gif" => "image/gif",
-            ".bmp" => "image/bmp",
-            ".webp" => "image/webp",
+            ".jpg" =>"image/jpeg",
+            ".jpeg" =>"image/jpeg",
+            ".png" =>"image/png",
+            ".gif" =>"image/gif",
+            ".bmp" =>"image/bmp",
+            ".webp" =>"image/webp",
             _ => "application/octet-stream",
         };
 
@@ -60,7 +60,47 @@ public class UploadController : ControllerBase
         return _s3Client.GetPreSignedURL(request);
     }
 
+    [HttpDelete("{fileName}")]
+    public async Task<IActionResult> DeleteFileAsync(string fileName)
+    {
+        try
+        {
+            // קודם נבדוק אם הקובץ קיים
+            var metadataRequest = new GetObjectMetadataRequest
+            {
+                BucketName = "drawing-bucket",
+                Key = fileName
+            };
 
+            try
+            {
+                var metadataResponse = await _s3Client.GetObjectMetadataAsync(metadataRequest);
+            }
+            catch (AmazonS3Exception ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return NotFound(new { message = $"File '{fileName}' not found." });
+            }
+
+            // אם הקובץ קיים - מוחקים אותו
+            var deleteRequest = new DeleteObjectRequest
+            {
+                BucketName = "drawing-bucket",
+                Key = fileName
+            };
+
+            await _s3Client.DeleteObjectAsync(deleteRequest);
+
+            return Ok(new { message = $"File '{fileName}' was deleted successfully." });
+        }
+        catch (AmazonS3Exception s3Ex)
+        {
+            return StatusCode((int)s3Ex.StatusCode, new { error = s3Ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
+    }
 }
 
 

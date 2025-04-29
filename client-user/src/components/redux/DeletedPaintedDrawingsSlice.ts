@@ -11,22 +11,39 @@ export const fetchDeletedPaintedDrawingsByUserId = createAsyncThunk(
     }
 );
 
-export const deletePaintedDrawing = createAsyncThunk(
-    'paintedDrawings/deletePaintedDrawing',
-    async (id: number) => {
-        await api.delete(`/PaintedDrawing/${id}`);
-        return id; // מחזירים רק את ה-ID של הציור שנמחק
+export const deletePaintedDrawing = createAsyncThunk<
+  number,
+  number,
+  { state: RootStore }
+>(
+  'paintedDrawings/deletePaintedDrawing',
+  async (id, { getState, rejectWithValue }) => {
+    try {
+      const state = getState();
+      const drawing = state.deletedPaintedDrawings.deletedPaintedDrawings.find(d => d.id === id);
+      if (!drawing) throw new Error('הציור לא נמצא');
+
+      await api.delete(`/PaintedDrawing/${id}`);
+
+      if (drawing.name)
+     {
+        await api.delete(`/upload/${drawing.name}`);
+      }
+
+      return id;
+    } catch (error: any) {
+      return rejectWithValue(error.message || 'מחיקה נכשלה');
     }
+  }
 );
 
 export const recoverPaintedDrawing = createAsyncThunk(
-    'paintedDrawings/drecoverPaintedDrawing',
+    'paintedDrawings/recoverPaintedDrawing',
     async (id: number) => {
         await api.put(`/PaintedDrawing/Recover/${id}`);
-        return id; // מחזירים רק את ה-ID של הציור ששוחזר
+        return id;
     }
 );
-
 
 const deletedPaintedDrawingsSlice = createSlice({
     name: 'paintedDrawings',
@@ -43,25 +60,22 @@ const deletedPaintedDrawingsSlice = createSlice({
             })
             .addCase(fetchDeletedPaintedDrawingsByUserId.rejected, (state, action) => {
                 state.status = 'failed';
-                state.error = action.payload as string || action.error.message || 'Failed to fetch painted drawings';
+                state.error = action.payload as string || action.error.message || 'שגיאה בטעינת ציורים שנמחקו';
             })
             .addCase(deletePaintedDrawing.fulfilled, (state, action) => {
                 state.deletedPaintedDrawings = state.deletedPaintedDrawings.filter((drawing) => drawing.id !== action.payload);
             })
             .addCase(deletePaintedDrawing.rejected, (state, action) => {
-                state.error = action.payload as string || action.error.message || 'Failed to delete painted drawing';
+                state.error = action.payload as string || action.error.message || 'שגיאה במחיקת ציור';
             })
             .addCase(recoverPaintedDrawing.fulfilled, (state, action) => {
                 state.deletedPaintedDrawings = state.deletedPaintedDrawings.filter((drawing) => drawing.id !== action.payload);
             })
             .addCase(recoverPaintedDrawing.rejected, (state, action) => {
-                state.error = action.payload as string || action.error.message || 'Failed to recover painted drawing';
+                state.error = action.payload as string || action.error.message || 'שגיאה בשחזור ציור';
             });
-
-
     },
 });
 
 export const selectDeletedPaintedDrawings = (state: RootStore) => state.deletedPaintedDrawings;
-
 export default deletedPaintedDrawingsSlice.reducer;

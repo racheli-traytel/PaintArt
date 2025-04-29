@@ -5,7 +5,7 @@ import paintedDrawingsReducer from './PaintedDrawingsSlice';
 import authReducer from './AuthSlice'
 import popularDrawingsReducer from './MyMostPopular'
 import deletedPaintedDrawingsReducer from './DeletedPaintedDrawingsSlice'
-
+import chatReducer from './ChatSlice'
 const Store = configureStore({
     reducer: {
         categories: categoriesReducer,
@@ -13,7 +13,8 @@ const Store = configureStore({
         paintedDrawings: paintedDrawingsReducer,
         auth:authReducer,
         popularDrawings:popularDrawingsReducer,
-        deletedPaintedDrawings:deletedPaintedDrawingsReducer
+        deletedPaintedDrawings:deletedPaintedDrawingsReducer,
+        chat:chatReducer
     },
 });
 
