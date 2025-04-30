@@ -3,9 +3,11 @@ import axios from 'axios';
 import Category from '../../types/category';
 import { RootStore } from './Store';
 
+const baseURL= import.meta.env.VITE_API_URL
+
 // Async thunk to fetch categories
 export const fetchCategories = createAsyncThunk('categories/fetchCategories', async () => {
-  const response = await axios.get('https://localhost:7004/categories');
+  const response = await axios.get(`${baseURL}/Category`);
   return response.data;
 });
 

@@ -4,10 +4,11 @@ import Drawing from '../../types/drawing';  // עדכן את הנתיב אם צ�
 import { RootStore } from './Store';
 import api from '../api';
 
+const baseURL= import.meta.env.VITE_API_URL
 export const fetchAllDrawings = createAsyncThunk(
   'drawings/fetchAllDrawings',
   async () => {
-    const response = await axios.get('https://localhost:7004/api/Drawing');
+    const response = await axios.get(`${baseURL}/Drawing`);
     return response.data;
   }
 );
@@ -15,7 +16,7 @@ export const fetchAllDrawings = createAsyncThunk(
 export const fetchTopRatedDrawings = createAsyncThunk(
   'drawings/fetchTopRatedDrawings',
   async (count: number) => {
-    const response = await axios.get(`https://localhost:7004/api/Drawing/top-rated/${count}`);
+    const response = await axios.get(`${baseURL}/Drawing/top-rated/${count}`);
     console.log("response", response);
     return response.data;
   }
@@ -26,7 +27,7 @@ export const fetchTopRatedDrawings = createAsyncThunk(
 export const searchDrawings = createAsyncThunk(
   'drawings/searchDrawings',
   async (searchTerm: string) => {
-    const response = await axios.get(`https://localhost:7004/api/Drawing/Search/${searchTerm}`);
+    const response = await axios.get(`${baseURL}/Drawing/Search/${searchTerm}`);
     return response.data;
   }
 );
@@ -35,7 +36,7 @@ export const searchDrawings = createAsyncThunk(
 export const fetchDrawingsByCategory = createAsyncThunk(
   'drawings/fetchDrawingsByCategory',
   async (categoryId: number) => {
-    const response = await axios.get(`https://localhost:7004/api/Drawing/ByCategory/${categoryId}`);
+    const response = await axios.get(`${baseURL}/Drawing/ByCategory/${categoryId}`);
     return response.data.worksheets;
   }
 );

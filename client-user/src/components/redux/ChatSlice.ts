@@ -19,11 +19,12 @@ const initialState: ChatState = {
   error: null,
 };
 
+const baseURL= import.meta.env.VITE_API_URL
 // ✅ כאן התיקון
 export const sendChatMessage = createAsyncThunk(
   'chat/sendChatMessage',
   async (message: string) => {
-    const response = await axios.post('https://localhost:7004/api/ChatApi/chat', {
+    const response = await axios.post(`${baseURL}/ChatApi/chat`, {
       message,
       systemRole: "אתה מומחה לציורים, תן תשובות טובות",
     });

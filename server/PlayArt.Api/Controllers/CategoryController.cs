@@ -4,9 +4,12 @@ using PlayArt.Core.entities;
 
 namespace PlayArt.Api.Controllers
 {
-    public class CategoryController : Controller
+
+    [ApiController]
+    [Route("api/[controller]")]
+    public class CategoryController : ControllerBase
     {
-        [HttpGet("categories")]
+        [HttpGet]
         public IActionResult GetCategories()
         {
             var categories = Enum.GetValues(typeof(DrawingCategory))

@@ -6,6 +6,7 @@ import { RootStore } from './Store';
 // קריאת נתונים מ-Session Storage בעת עליית האפליקציה
 const storedUser = sessionStorage.getItem("user");
 const storedToken = sessionStorage.getItem("token");
+const baseURL= import.meta.env.VITE_API_URL
 
 interface AuthState {
   token: string | null;
@@ -33,7 +34,7 @@ export const login = createAsyncThunk(
   'auth/login',
   async (credentials: { email: string; password: string }, thunkAPI) => {
     try {
-      const response = await axios.post('https://localhost:7004/api/Auth/login', credentials);
+      const response = await axios.post(`${baseURL}/Auth/login`, credentials);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response?.data || 'Login failed');
@@ -49,7 +50,7 @@ export const register = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      const response = await axios.post('https://localhost:7004/api/Auth/register', {
+      const response = await axios.post(`${baseURL}/Auth/register`, {
         ...newUser,
         roleName: 'User',
       });

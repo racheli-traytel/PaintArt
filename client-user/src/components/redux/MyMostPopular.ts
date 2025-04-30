@@ -3,11 +3,13 @@ import axios from 'axios';
 import Drawing from '../../types/drawing';
 import { RootStore } from './Store';
 
+
+const baseURL= import.meta.env.VITE_API_URL
 // Async thunk to fetch popular drawings of a specific user
 export const fetchPopularDrawings = createAsyncThunk(
   'drawings/fetchPopularDrawings',
   async (userId: number) => {
-    const response = await axios.get(`https://localhost:7004/drawings/popular/${userId}`);
+    const response = await axios.get(`${baseURL}/drawings/popular/${userId}`);
     return response.data;
   }
 );

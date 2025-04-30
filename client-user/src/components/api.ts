@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://localhost:7004/api",
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 // הוספת Interceptor לכל בקשה
