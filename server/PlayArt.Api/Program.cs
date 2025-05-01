@@ -163,7 +163,7 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 //    option.UseSqlServer("Data Source = DESKTOP-SSNMLFD; Initial Catalog = PlayArt; Integrated Security = true; Trusted_Connection = SSPI; MultipleActiveResultSets = true; TrustServerCertificate = true;");
 //});
 
-var connectionString = "Server=beqdqzgusumabq3kbes4-mysql.services.clever-cloud.com;Port=3306;Database=beqdqzgusumabq3kbes4;User=uo44ivmkbvid09wi;Password=uW496zhf7ImCGeNGPSjj;";
+var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));

@@ -11,6 +11,8 @@ import RatingModal from "./RatingModal";
 import axios from "axios";
 import { fetchTopRatedDrawings } from "./redux/DrawingSlice";
 
+const baseURL= import.meta.env.VITE_API_URL
+
 const DrawingCard = ({ drawing }: { drawing: Drawing }) => {
     const { user } = useSelector((state: RootStore) => state.auth);
     const navigate = useNavigate();
@@ -50,7 +52,7 @@ const DrawingCard = ({ drawing }: { drawing: Drawing }) => {
 
   const handleDownloadClick = async () => {
    let fileName=drawing.name
-   const downloadResponse = await axios.get(`https://localhost:7004/api/upload/download-url/${fileName}`);
+   const downloadResponse = await axios.get(`${baseURL}/upload/download-url/${fileName}`);
    const fileUrl = downloadResponse.data;
 
    console.log("fileUrl",fileUrl);
